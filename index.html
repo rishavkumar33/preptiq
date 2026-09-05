@@ -51,7 +51,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 @media(max-width:767px){
   .page{padding:16px 16px 110px; max-width: 100vw; overflow-x: hidden;}
   .row4 { grid-template-columns: 1fr !important; }
-  #main > div.screen { display: flex; flex-direction: column; gap: 12px; }
+  #main > div.screen.active { display: flex; flex-direction: column; gap: 12px; }
   #d-logs > div { width: 100%; }
   #page-title { display: none; }
 }
@@ -716,15 +716,15 @@ const PAL=[{c:'#4d44e3',l:'#ede9ff'},{c:'#466747',l:'#d7fed4'},{c:'#c07a1a',l:'#
 const ICONS=['calculate','translate','museum','science','book','psychology','language','history_edu','school','biotech','public','functions','draw','music_note','sports_soccer','gavel','eco','architecture'];
 
 // ═══════════════════ DEFAULTS ═══════════════════
-const DS=[{id:'quant',name:'Quant Aptitude',color:'#4d44e3',light:'#ede9ff',icon:'calculate'},{id:'english',name:'English',color:'#c07a1a',light:'#fef3d7',icon:'translate'},{id:'history',name:'History',color:'#466747',light:'#d7fed4',icon:'museum'},{id:'science',name:'Science',color:'#1a7a8a',light:'#e0f4f7',icon:'science'}];
-const DT=[{id:1,text:'Solve 20 quant questions',subjId:'quant',done:true},{id:2,text:'Read 5 pages of vocabulary',subjId:'english',done:false},{id:3,text:'Practice 2 reading comprehensions',subjId:'english',done:true},{id:4,text:'Watch History lecture',subjId:'history',done:false}];
-const DL=[{id:1,topic:'Quant Aptitude',subtopic:'Algebra — Systems of Equations',subjId:'quant',duration:'2h 00m',difficulty:'Hard',date:'Oct 24'},{id:2,topic:'English',subtopic:'Reading Comprehension — Analysis',subjId:'english',duration:'45m',difficulty:'Medium',date:'Oct 24'},{id:3,topic:'History',subtopic:'French Revolution — Fall of Bastille',subjId:'history',duration:'1h 30m',difficulty:'Easy',date:'Oct 23'}];
-const DSET={name:'Alex Kumar',exam:'UPSC 2025',focusDur:25,breakDur:5,streak:5,darkMode:false};
-const DR=[{id:1,topic:'Organic Chemistry — Reactions',subjId:'science',nextDate:new Date().toISOString().slice(0,10),interval:1,ease:2.5,reps:0,done:false},{id:2,topic:'Algebra — Quadratic Equations',subjId:'quant',nextDate:new Date(Date.now()-86400000).toISOString().slice(0,10),interval:1,ease:2.5,reps:3,done:false}];
+// ═══════════════════ DEFAULTS ═══════════════════
+const DS=[];
+const DT=[];
+const DL=[];
+const DSET={name:'',exam:'',focusDur:25,breakDur:5,streak:0,darkMode:false};
+const DR=[];
 const DTESTS=[];
-const DGOALS=[{id:1,text:'Study for 4 hours',cat:'study',target:4,progress:2.5,done:false},{id:2,text:'Complete 3 revision sessions',cat:'revision',target:3,progress:1,done:false},{id:3,text:'Finish today\'s task list',cat:'tasks',target:4,progress:2,done:false}];
-const DNOTES=[{id:1,title:'Hess\'s Law',subjId:'science',type:'formula',content:'ΔH_reaction = Σ ΔH_products − Σ ΔH_reactants. Enthalpy is a state function.',date:'Oct 24'},{id:2,title:'Reading Comprehension Tips',subjId:'english',type:'tip',content:'1. Read the question first\n2. Skim for keywords\n3. Never assume beyond the text\n4. Watch for tone indicators',date:'Oct 23'}];
-
+const DGOALS=[];
+const DNOTES=[];
 // ═══════════════════ STATE ═══════════════════
 function load(){try{return JSON.parse(localStorage.getItem('preptiq'))||{}}catch{return{}}}
 function save(){localStorage.setItem('preptiq',JSON.stringify({subjects,tasks,logs,revisions,tests,goals,notes,settings}))}
