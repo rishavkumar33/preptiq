@@ -10,20 +10,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <style>
+:root {
+  --bg: #f7f9fb; 
+  --card: #fff; 
+  --card-m: #f0f4f7; 
+  --text: #1a2228; 
+  --text-muted: #566166; 
+  --border: rgba(0,0,0,.04);
+}
+.dark-mode {
+  --bg: #0f172a; 
+  --card: #1e293b; 
+  --card-m: #334155; 
+  --text: #f8fafc; 
+  --text-muted: #94a3b8; 
+  --border: rgba(255,255,255,.05);
+}
+
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:#f7f9fb;color:#1a2228;min-height:100dvh;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;transition:background 0.3s,color 0.3s}
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
 .ms{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 0,'wght' 350,'GRAD' 0,'opsz' 24;font-style:normal;line-height:1;display:inline-block;vertical-align:middle;white-space:nowrap;word-wrap:normal}
 .msf{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}
 
 /* ─ Layout ─ */
-#sidebar{width:252px;background:#f0f4f7;position:fixed;left:0;top:0;height:100%;display:flex;flex-direction:column;padding:24px 0 0;z-index:40;border-right:1px solid rgba(0,0,0,.04)}
+#sidebar{width:252px;background:var(--card-m);position:fixed;left:0;top:0;height:100%;display:flex;flex-direction:column;padding:24px 0 0;z-index:40;border-right:1px solid var(--border)}
 #main{margin-left:252px;min-height:100dvh;display:flex;flex-direction:column}
 @media(max-width:767px){#sidebar{display:none}#main{margin-left:0}}
 
 /* ─ Topbar ─ */
-#topbar{background:#f7f9fb;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(0,0,0,.04)}
+#topbar{background:var(--bg);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:30;border-bottom:1px solid var(--border)}
 @media(max-width:767px){#topbar{padding:0 16px;height:56px}}
 
 /* ─ Screen ─ */
@@ -31,16 +48,22 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .screen.active{display:block}
 @keyframes sIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
 .page{padding:24px 28px 120px;max-width:960px;margin:0 auto;width:100%}
-@media(max-width:767px){.page{padding:16px 16px 110px}}
+@media(max-width:767px){
+  .page{padding:16px 16px 110px; max-width: 100vw; overflow-x: hidden;}
+  .row4 { grid-template-columns: 1fr !important; }
+  #main > div.screen { display: flex; flex-direction: column; gap: 12px; }
+  #d-logs > div { width: 100%; }
+  #page-title { display: none; }
+}
 
 /* ─ Nav ─ */
-.nav-link{display:flex;align-items:center;gap:11px;padding:9px 20px;font-size:.73rem;font-weight:600;letter-spacing:.065em;text-transform:uppercase;color:#566166;cursor:pointer;border-right:2.5px solid transparent;transition:all .13s;user-select:none;text-decoration:none}
-.nav-link:hover{background:#e8eff3;color:#1a2228}
+.nav-link{display:flex;align-items:center;gap:11px;padding:9px 20px;font-size:.73rem;font-weight:600;letter-spacing:.065em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;border-right:2.5px solid transparent;transition:all .13s;user-select:none;text-decoration:none}
+.nav-link:hover{background:rgba(77,68,227,.1);color:var(--text)}
 .nav-link.active{color:#4d44e3;background:rgba(77,68,227,.07);border-right-color:#4d44e3;font-weight:700}
 .nav-link.active .ms{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24}
-#mobnav{display:none;position:fixed;bottom:0;left:0;width:100%;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:8px 8px max(16px,env(safe-area-inset-bottom));border-radius:20px 20px 0 0;box-shadow:0 -1px 0 rgba(0,0,0,.06),0 -8px 32px rgba(26,34,40,.08)}
+#mobnav{display:none;position:fixed;bottom:0;left:0;width:100%;z-index:50;background:var(--card);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:8px 8px max(16px,env(safe-area-inset-bottom));border-radius:20px 20px 0 0;box-shadow:0 -1px 0 var(--border),0 -8px 32px rgba(0,0,0,.08)}
 @media(max-width:767px){#mobnav{display:flex;justify-content:space-around;align-items:center}}
-.mob-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#566166;cursor:pointer;padding:7px 12px;border-radius:12px;transition:all .13s;min-width:52px}
+.mob-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.58rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-muted);cursor:pointer;padding:7px 12px;border-radius:12px;transition:all .13s;min-width:52px}
 .mob-item.active{color:#4d44e3;background:rgba(77,68,227,.09)}
 .mob-item.active .ms{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24}
 
@@ -50,107 +73,105 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .bp{background:linear-gradient(135deg,#4d44e3,#3d35c7);color:#fff;padding:9px 20px;font-size:.82rem;box-shadow:0 3px 14px rgba(77,68,227,.28)}
 .bp:hover{box-shadow:0 5px 22px rgba(77,68,227,.36);transform:translateY(-1px)}
 .bp:active{transform:scale(.96)}
-.bg{background:#fff;color:#1a2228;padding:9px 20px;font-size:.82rem;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.bg:hover{background:#f0f4f7}
+.bg{background:var(--card);color:var(--text);padding:9px 20px;font-size:.82rem;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.bg:hover{background:var(--card-m)}
 .bsm{padding:7px 16px;font-size:.76rem}
 .bd{background:#ffe4e8;color:#9e3f4e;padding:7px 16px;font-size:.76rem}
 .bd:hover{background:#ffd0d6}
 
 /* ─ Cards ─ */
-.card{background:#fff;border-radius:1.1rem;padding:1.4rem}
-.cardm{background:#f0f4f7;border-radius:1.1rem;padding:1.4rem}
+.card{background:var(--card);border-radius:1.1rem;padding:1.4rem; color: var(--text)}
+.cardm{background:var(--card-m);border-radius:1.1rem;padding:1.4rem; color: var(--text)}
 
 /* ─ Input ─ */
-.inp{width:100%;background:#f0f4f7;border:none;outline:none;padding:10px 13px;border-radius:.8rem;font-size:.86rem;font-family:'Inter',sans-serif;color:#1a2228;transition:box-shadow .14s}
-.inp:focus{background:#fff;box-shadow:0 0 0 3px rgba(77,68,227,.13)}
-.inp::placeholder{color:#a9b4b9}
+.inp{width:100%;background:var(--card-m);border:none;outline:none;padding:10px 13px;border-radius:.8rem;font-size:.86rem;font-family:'Inter',sans-serif;color:var(--text);transition:box-shadow .14s}
+.inp:focus{background:var(--card);box-shadow:0 0 0 3px rgba(77,68,227,.13)}
+.inp::placeholder{color:var(--text-muted)}
 select.inp{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23566166' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px}
 textarea.inp{resize:vertical;min-height:80px;line-height:1.5}
 
 /* ─ Progress ─ */
-.pt{background:#e8eff3;border-radius:999px;overflow:hidden}
+.pt{background:rgba(100,100,100,0.1);border-radius:999px;overflow:hidden}
 .pf{background:linear-gradient(90deg,#4d44e3,#6c64f4);border-radius:999px;transition:width .5s cubic-bezier(.34,1.56,.64,1)}
 
 /* ─ Tags ─ */
 .tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:.61rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .th{background:#ffe4e8;color:#9e3f4e}.tm{background:#e0edff;color:#3b5fa0}.te{background:#d7fed4;color:#466747}
-.slabel{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#566166}
+.slabel{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
 .sdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
 
 /* ─ Tabs ─ */
-.ftab{padding:5px 13px;border-radius:999px;font-size:.73rem;font-weight:600;cursor:pointer;border:none;font-family:'Inter';transition:all .12s;background:#e8eff3;color:#566166;white-space:nowrap}
-.ftab:hover{background:#e1e9ee;color:#1a2228}
-.ftab.active{background:#4d44e3;color:#fff}
+.ftab{padding:5px 13px;border-radius:999px;font-size:.73rem;font-weight:600;cursor:pointer;border:none;font-family:'Inter';transition:all .12s;background:var(--card-m);color:var(--text-muted);white-space:nowrap}
+.ftab:hover{background:rgba(100,100,100,0.2);color:var(--text)}
+.ftab.active{background:#4d44e3 !important;color:#fff !important}
 
 /* ─ Task row ─ */
-.tr{background:#fff;border-radius:.9rem;padding:.85rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;transition:all .14s;border-left:3px solid transparent}
-.tr:hover{box-shadow:0 2px 10px rgba(26,34,40,.07)}
+.tr{background:var(--card);border-radius:.9rem;padding:.85rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;transition:all .14s;border-left:3px solid transparent; word-break: break-word; flex-wrap: wrap;}
+.tr:hover{box-shadow:0 2px 10px rgba(0,0,0,.07)}
 .tr.done{opacity:.7}
 .chk{width:22px;height:22px;border-radius:50%;border:2px solid #c5ced3;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .14s}
 .chk.on{border-color:transparent}
 
 /* ─ Log row ─ */
-.lr{background:#fff;border-radius:.9rem;padding:.85rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;transition:all .14s}
-.lr:hover{transform:translateX(2px);box-shadow:0 2px 10px rgba(26,34,40,.06)}
+.lr{background:var(--card);border-radius:.9rem;padding:.85rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;transition:all .14s; word-break: break-word; flex-wrap: wrap;}
+.lr:hover{transform:translateX(2px);box-shadow:0 2px 10px rgba(0,0,0,.06)}
 
 /* ─ Overlay / Modal ─ */
-.ov{position:fixed;inset:0;z-index:200;background:rgba(26,34,40,.46);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:1rem}
+.ov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.6);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:1rem}
 .ov.open{display:flex}
-.modal{background:#fff;border-radius:1.6rem;padding:1.75rem;width:min(520px,96vw);box-shadow:0 40px 100px rgba(26,34,40,.22);animation:mIn .2s cubic-bezier(.16,1,.3,1);max-height:92dvh;overflow-y:auto}
+.modal{background:var(--card);border-radius:1.6rem;padding:1.75rem;width:min(520px,96vw);box-shadow:0 40px 100px rgba(0,0,0,.22);animation:mIn .2s cubic-bezier(.16,1,.3,1);max-height:92dvh;overflow-y:auto; color:var(--text)}
+@media(max-width:767px){ .modal { width: 92vw !important; padding: 1.25rem !important; } }
 @keyframes mIn{from{opacity:0;transform:scale(.93) translateY(-5px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .modal-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-.modal-title{font-size:.98rem;font-weight:800;color:#1a2228}
-.close-btn{width:28px;height:28px;border-radius:50%;background:#f0f4f7;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .12s}
-.close-btn:hover{background:#e1e9ee}
+.modal-title{font-size:.98rem;font-weight:800;color:var(--text)}
+.close-btn{width:28px;height:28px;border-radius:50%;background:var(--card-m);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .12s}
+.close-btn:hover{background:rgba(100,100,100,0.2)}
 
 /* ─ Command ─ */
 #cmd-ov{align-items:flex-start;padding-top:13vh}
-#cmd-box{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-radius:1.4rem;width:min(560px,94vw);box-shadow:0 32px 80px rgba(26,34,40,.22);overflow:hidden;animation:mIn .17s cubic-bezier(.16,1,.3,1)}
-.ci{display:flex;align-items:center;gap:11px;padding:11px 16px;cursor:pointer;transition:background .11s}
-.ci:hover,.ci.sel{background:#f0f4f7}
+#cmd-box{background:var(--card);border-radius:1.4rem;width:min(560px,94vw);box-shadow:0 32px 80px rgba(0,0,0,.22);overflow:hidden;animation:mIn .17s cubic-bezier(.16,1,.3,1)}
+.ci{display:flex;align-items:center;gap:11px;padding:11px 16px;cursor:pointer;transition:background .11s; color:var(--text)}
+.ci:hover,.ci.sel{background:var(--card-m)}
 
 /* ─ Heatmap ─ */
 .hcell{width:11px;height:11px;border-radius:2px;cursor:pointer;transition:transform .1s;flex-shrink:0}
 .hcell:hover{transform:scale(1.45)}
-.h0{background:#e8eff3}.h1{background:#c5d6f0}.h2{background:#8582ff}.h3{background:#4d44e3}.h4{background:#2d26a8}
+.h0{background:rgba(100,100,100,0.1)}.h1{background:#c5d6f0}.h2{background:#8582ff}.h3{background:#4d44e3}.h4{background:#2d26a8}
 
 /* ─ Swatches ─ */
 .sw{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:all .12s;flex-shrink:0}
 .sw:hover{transform:scale(1.15)}
-.sw.on{border-color:#1a2228}
+.sw.on{border-color:var(--text)}
 
 /* ─ Toast ─ */
-#toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(14px);background:#1a2228;color:#fff;padding:9px 18px;border-radius:999px;font-size:.79rem;font-weight:600;opacity:0;transition:all .22s;pointer-events:none;z-index:999;white-space:nowrap}
+#toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(14px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:999px;font-size:.79rem;font-weight:600;opacity:0;transition:all .22s;pointer-events:none;z-index:999;white-space:nowrap}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* ─ Badge ─ */
 .badge{font-size:.6rem;font-weight:800;padding:1px 7px;border-radius:999px;text-transform:uppercase;letter-spacing:.07em}
 
 /* ─ Revision card ─ */
-.revcard{background:#fff;border-radius:.9rem;padding:1rem;display:flex;align-items:center;gap:.9rem;cursor:pointer;transition:all .14s;border-left:3px solid #4d44e3}
-.revcard:hover{box-shadow:0 2px 10px rgba(26,34,40,.07);transform:translateX(2px)}
+.revcard{background:var(--card);border-radius:.9rem;padding:1rem;display:flex;align-items:center;gap:.9rem;cursor:pointer;transition:all .14s;border-left:3px solid #4d44e3}
+.revcard:hover{box-shadow:0 2px 10px rgba(0,0,0,.07);transform:translateX(2px)}
 .revcard.overdue{border-left-color:#9e3f4e}
 .revcard.today{border-left-color:#c07a1a}
 .revcard.done-r{border-left-color:#466747;opacity:.6}
 
 /* ─ Test row ─ */
-.testrow{background:#fff;border-radius:.9rem;padding:1rem 1.1rem;display:flex;align-items:center;gap:.9rem;transition:all .14s}
-.testrow:hover{box-shadow:0 2px 10px rgba(26,34,40,.07)}
-
-/* ─ Score ring ─ */
-.score-ring{position:relative;width:48px;height:48px;flex-shrink:0}
+.testrow{background:var(--card);border-radius:.9rem;padding:1rem 1.1rem;display:flex;align-items:center;gap:.9rem;transition:all .14s; word-break: break-word; flex-wrap: wrap;}
+.testrow:hover{box-shadow:0 2px 10px rgba(0,0,0,.07)}
 
 /* ─ Goal card ─ */
-.goalcard{background:#fff;border-radius:.9rem;padding:.95rem 1rem;display:flex;align-items:center;gap:.8rem;transition:all .14s}
-.goalcard:hover{box-shadow:0 2px 10px rgba(26,34,40,.06)}
+.goalcard{background:var(--card);border-radius:.9rem;padding:.95rem 1rem;display:flex;align-items:center;gap:.8rem;transition:all .14s; word-break: break-word; flex-wrap: wrap;}
+.goalcard:hover{box-shadow:0 2px 10px rgba(0,0,0,.06)}
 
 /* ─ Note card ─ */
-.notecard{background:#fff;border-radius:.9rem;padding:1rem;cursor:pointer;transition:all .14s;border-top:3px solid #4d44e3}
-.notecard:hover{box-shadow:0 3px 14px rgba(26,34,40,.08);transform:translateY(-1px)}
+.notecard{background:var(--card);border-radius:.9rem;padding:1rem;cursor:pointer;transition:all .14s;border-top:3px solid #4d44e3}
+.notecard:hover{box-shadow:0 3px 14px rgba(0,0,0,.08);transform:translateY(-1px)}
 
 /* ─ Misc ─ */
-kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:#566166;font-weight:600}
-.divider{height:1px;background:#f0f4f7;margin:8px 0}
+kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:var(--card-m);color:var(--text-muted);font-weight:600}
+.divider{height:1px;background:var(--card-m);margin:8px 0}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .row4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 @media(max-width:600px){.row4{grid-template-columns:1fr 1fr}.row2{grid-template-columns:1fr}}
@@ -160,14 +181,14 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 
 <!-- ══════════════ SIDEBAR ══════════════ -->
 <aside id="sidebar">
-  <div style="padding:0 18px 18px;margin-bottom:10px;border-bottom:1px solid #e8eff3">
+  <div style="padding:0 18px 18px;margin-bottom:10px;border-bottom:1px solid var(--border)">
     <div style="display:flex;align-items:center;gap:9px">
       <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#4d44e3,#3d35c7);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(77,68,227,.3)">
         <span class="ms msf" style="font-size:16px;color:#fff">bolt</span>
       </div>
       <div>
-        <div style="font-size:.92rem;font-weight:900;color:#1a2228;letter-spacing:-.02em">PrepTIQ</div>
-        <div id="sb-exam" style="font-size:.66rem;color:#566166;font-weight:500;margin-top:1px"></div>
+        <div style="font-size:.92rem;font-weight:900;color:var(--text);letter-spacing:-.02em">PrepTIQ</div>
+        <div id="sb-exam" style="font-size:.66rem;color:var(--text-muted);font-weight:500;margin-top:1px"></div>
       </div>
     </div>
   </div>
@@ -184,26 +205,26 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
     <a class="nav-link" data-s="analytics"  onclick="go('analytics')"><span class="ms" style="font-size:18px">analytics</span>Analytics</a>
   </nav>
 
-  <div style="padding:10px 16px 4px;margin-top:6px;border-top:1px solid #e8eff3"><p class="slabel" style="padding:0 4px">Subjects</p></div>
+  <div style="padding:10px 16px 4px;margin-top:6px;border-top:1px solid var(--border)"><p class="slabel" style="padding:0 4px">Subjects</p></div>
   <div id="sb-subjects" style="overflow-y:auto;flex:1"></div>
 
   <div style="padding:0 16px 14px;margin-top:8px">
-    <button onclick="openCmd()" style="width:100%;display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:11px;background:#e8eff3;border:none;cursor:pointer;font-family:'Inter';font-size:.73rem;font-weight:600;color:#566166;transition:background .12s" onmouseover="this.style.background='#e1e9ee'" onmouseout="this.style.background='#e8eff3'">
+    <button onclick="openCmd()" style="width:100%;display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:11px;background:var(--card);border:none;cursor:pointer;font-family:'Inter';font-size:.73rem;font-weight:600;color:var(--text-muted);transition:background .12s" onmouseover="this.style.background='var(--card-m)'" onmouseout="this.style.background='var(--card)'">
       <span class="ms" style="font-size:16px">search</span><span style="flex:1;text-align:left">Command</span><kbd>⌘K</kbd>
     </button>
   </div>
 
-  <div style="padding:12px 18px;border-top:1px solid #e8eff3;display:flex;align-items:center;gap:9px">
+  <div style="padding:12px 18px;border-top:1px solid var(--border);display:flex;align-items:center;gap:9px">
     <div id="sb-avatar" style="width:30px;height:30px;border-radius:50%;background:#4d44e3;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.78rem;font-weight:800;color:#fff">A</div>
     <div style="flex:1;min-width:0">
-      <div id="sb-name" style="font-size:.8rem;font-weight:700;color:#1a2228;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
+      <div id="sb-name" style="font-size:.8rem;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></div>
       <div style="display:flex;align-items:center;gap:3px;margin-top:1px">
         <span class="ms msf" style="font-size:12px;color:#c07a1a">local_fire_department</span>
         <span id="sb-streak" style="font-size:.66rem;font-weight:700;color:#c07a1a"></span>
       </div>
     </div>
     <a class="nav-link" data-s="settings" onclick="go('settings')" style="padding:6px;border:none;border-radius:8px;background:transparent;flex-shrink:0">
-      <span class="ms" style="font-size:18px;color:#566166">settings</span>
+      <span class="ms" style="font-size:18px;color:var(--text-muted)">settings</span>
     </a>
   </div>
 </aside>
@@ -214,12 +235,12 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
     <div style="display:flex;align-items:center;gap:10px">
       <div id="mob-logo" style="display:none;align-items:center;gap:7px">
         <div style="width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#4d44e3,#3d35c7);display:flex;align-items:center;justify-content:center"><span class="ms msf" style="font-size:13px;color:#fff">bolt</span></div>
-        <span style="font-size:.9rem;font-weight:900;color:#1a2228">PrepTIQ</span>
+        <span style="font-size:.9rem;font-weight:900;color:var(--text)">PrepTIQ</span>
       </div>
-      <h2 id="page-title" style="font-size:.98rem;font-weight:700;color:#1a2228"></h2>
+      <h2 id="page-title" style="font-size:.98rem;font-weight:700;color:var(--text)"></h2>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
-      <button onclick="openCmd()" id="mob-search" style="display:none;width:36px;height:36px;border-radius:10px;background:#f0f4f7;border:none;cursor:pointer;align-items:center;justify-content:center"><span class="ms" style="font-size:18px;color:#566166">search</span></button>
+      <button onclick="go('settings')" id="mob-settings" style="display:flex;width:36px;height:36px;border-radius:10px;background:var(--card-m);border:none;cursor:pointer;align-items:center;justify-content:center; margin-right:4px;"><span class="ms" style="font-size:18px;color:var(--text-muted)">settings</span></button>
       <button onclick="openQA()" class="btn bp bsm"><span class="ms" style="font-size:15px">add</span><span id="add-label">Quick Add</span></button>
     </div>
   </header>
@@ -229,7 +250,7 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
     <div style="margin-bottom:22px">
       <div id="d-date" class="slabel" style="margin-bottom:4px"></div>
       <h1 id="d-greet" style="font-size:2rem;font-weight:900;letter-spacing:-.03em;line-height:1.2;margin-bottom:4px"></h1>
-      <p id="d-sub" style="color:#566166;font-size:.86rem"></p>
+      <p id="d-sub" style="color:var(--text-muted);font-size:.86rem"></p>
     </div>
     <div class="row4" style="margin-bottom:12px">
       <div class="card" style="grid-column:span 2;position:relative;overflow:hidden;padding:1.6rem">
@@ -237,20 +258,20 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
           <div class="slabel" style="margin-bottom:8px">Productivity Score</div>
           <div style="display:flex;align-items:baseline;gap:5px;margin-bottom:14px">
             <span id="d-score" style="font-size:3rem;font-weight:900;line-height:1">85</span>
-            <span style="font-size:1.1rem;color:#a9b4b9;font-weight:600">/100</span>
+            <span style="font-size:1.1rem;color:var(--text-muted);font-weight:600">/100</span>
           </div>
           <div class="pt" style="height:7px;margin-bottom:9px"><div class="pf" id="d-score-bar" style="height:100%;width:85%"></div></div>
-          <p style="font-size:.78rem;color:#566166">Daily target exceeded by <strong style="color:#4d44e3">+15%</strong></p>
+          <p style="font-size:.78rem;color:var(--text-muted)">Daily target exceeded by <strong style="color:#4d44e3">+15%</strong></p>
         </div>
         <div style="position:absolute;right:-14px;bottom:-14px;opacity:.04"><span class="ms msf" style="font-size:150px">query_stats</span></div>
       </div>
       <div class="cardm" style="display:flex;flex-direction:column;justify-content:space-between;padding:1.1rem">
         <span class="ms" style="color:#4d44e3;font-size:19px">schedule</span>
-        <div><div id="d-hours" style="font-size:1.8rem;font-weight:900;line-height:1">5.5<span style="font-size:.9rem;color:#566166;font-weight:600">h</span></div><div style="font-size:.7rem;color:#566166;font-weight:600;margin-top:2px">Study hours</div></div>
+        <div><div id="d-hours" style="font-size:1.8rem;font-weight:900;line-height:1">5.5<span style="font-size:.9rem;color:var(--text-muted);font-weight:600">h</span></div><div style="font-size:.7rem;color:var(--text-muted);font-weight:600;margin-top:2px">Study hours</div></div>
       </div>
       <div class="cardm" style="display:flex;flex-direction:column;justify-content:space-between;padding:1.1rem">
         <span class="ms" style="color:#466747;font-size:19px">shutter_speed</span>
-        <div><div id="d-sess" style="font-size:1.8rem;font-weight:900;line-height:1">4</div><div style="font-size:.7rem;color:#566166;font-weight:600;margin-top:2px">Focus sessions</div></div>
+        <div><div id="d-sess" style="font-size:1.8rem;font-weight:900;line-height:1">4</div><div style="font-size:.7rem;color:var(--text-muted);font-weight:600;margin-top:2px">Focus sessions</div></div>
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 2fr;gap:12px;margin-bottom:12px">
@@ -270,14 +291,13 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
         <div id="d-logs" style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px"></div>
         <div style="background:rgba(77,68,227,.05);border:1.5px solid rgba(77,68,227,.1);border-radius:.9rem;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px">
           <div>
-            <div style="font-size:.83rem;font-weight:700;color:#1a2228">Ready for deep work?</div>
-            <div style="font-size:.72rem;color:#566166;margin-top:2px">Start a Pomodoro focus session</div>
+            <div style="font-size:.83rem;font-weight:700;color:var(--text)">Ready for deep work?</div>
+            <div style="font-size:.72rem;color:var(--text-muted);margin-top:2px">Start a Pomodoro focus session</div>
           </div>
           <button onclick="openFocus()" class="btn bp bsm" style="flex-shrink:0"><span class="ms" style="font-size:14px">timer</span>Focus</button>
         </div>
       </div>
     </div>
-    <!-- Due today + Goal strip -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="card" style="padding:1.1rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -314,7 +334,7 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
     <div id="log-list" style="display:flex;flex-direction:column;gap:7px"></div>
     <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-top:24px">
       <button class="btn bg bsm" style="width:34px;height:34px;padding:0;justify-content:center;border-radius:50%"><span class="ms" style="font-size:17px">chevron_left</span></button>
-      <span style="font-size:.78rem;font-weight:600;background:#e8eff3;padding:5px 14px;border-radius:999px">Page 1 of 4</span>
+      <span style="font-size:.78rem;font-weight:600;background:var(--card-m);padding:5px 14px;border-radius:999px">Page 1 of 4</span>
       <button class="btn bg bsm" style="width:34px;height:34px;padding:0;justify-content:center;border-radius:50%"><span class="ms" style="font-size:17px">chevron_right</span></button>
     </div>
   </div>
@@ -333,24 +353,22 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
     <div id="task-list" style="display:flex;flex-direction:column;gap:7px"></div>
     <div id="task-insight" style="margin-top:20px;background:rgba(77,68,227,.05);border:1.5px solid rgba(77,68,227,.1);border-radius:.9rem;padding:12px 14px;display:flex;gap:10px">
       <div style="width:30px;height:30px;border-radius:9px;background:rgba(77,68,227,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms msf" style="color:#4d44e3;font-size:17px">auto_awesome</span></div>
-      <div><div class="slabel" style="color:#4d44e3;margin-bottom:2px">Insight</div><div id="task-msg" style="font-size:.82rem;font-weight:500;color:#1a2228;font-style:italic;line-height:1.5"></div></div>
+      <div><div class="slabel" style="color:#4d44e3;margin-bottom:2px">Insight</div><div id="task-msg" style="font-size:.82rem;font-weight:500;color:var(--text);font-style:italic;line-height:1.5"></div></div>
     </div>
   </div>
 
   <!-- ─── REVISION ─── -->
   <div id="screen-revision" class="screen page">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
-      <div><div class="slabel" style="margin-bottom:3px">Spaced Repetition</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Revision Scheduler</h2><p style="font-size:.82rem;color:#566166;margin-top:3px">Topics scheduled using SM-2 spaced repetition algorithm.</p></div>
+      <div><div class="slabel" style="margin-bottom:3px">Spaced Repetition</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Revision Scheduler</h2><p style="font-size:.82rem;color:var(--text-muted);margin-top:3px">Topics scheduled using SM-2 spaced repetition algorithm.</p></div>
       <button onclick="openAddRevision()" class="btn bp bsm"><span class="ms" style="font-size:15px">add</span>Add Topic</button>
     </div>
-    <!-- Stats -->
     <div class="row4" style="margin-bottom:18px">
       <div class="card" style="padding:1.1rem"><div class="slabel" style="margin-bottom:5px">Due Today</div><div id="rev-due-count" style="font-size:1.9rem;font-weight:900;color:#c07a1a">0</div></div>
       <div class="card" style="padding:1.1rem"><div class="slabel" style="margin-bottom:5px">Overdue</div><div id="rev-overdue-count" style="font-size:1.9rem;font-weight:900;color:#9e3f4e">0</div></div>
       <div class="card" style="padding:1.1rem"><div class="slabel" style="margin-bottom:5px">Mastered</div><div id="rev-mastered" style="font-size:1.9rem;font-weight:900;color:#466747">0</div></div>
       <div class="card" style="padding:1.1rem"><div class="slabel" style="margin-bottom:5px">Total Topics</div><div id="rev-total" style="font-size:1.9rem;font-weight:900">0</div></div>
     </div>
-    <!-- Filter -->
     <div id="rev-tabs" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px"></div>
     <div id="rev-list" style="display:flex;flex-direction:column;gap:7px"></div>
   </div>
@@ -358,28 +376,25 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
   <!-- ─── MOCK TESTS ─── -->
   <div id="screen-tests" class="screen page">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
-      <div><div class="slabel" style="margin-bottom:3px">Performance</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Mock Tests</h2><p style="font-size:.82rem;color:#566166;margin-top:3px">Track your scores and see your rank trend over time.</p></div>
+      <div><div class="slabel" style="margin-bottom:3px">Performance</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Mock Tests</h2><p style="font-size:.82rem;color:var(--text-muted);margin-top:3px">Track your scores and see your rank trend over time.</p></div>
       <button onclick="openAddTest()" class="btn bp bsm"><span class="ms" style="font-size:15px">add</span>Log Test</button>
     </div>
-    <!-- Summary cards -->
     <div class="row4" style="margin-bottom:18px">
       <div class="card" style="padding:1.1rem"><div class="slabel" style="margin-bottom:5px">Best Score</div><div id="t-best" style="font-size:1.9rem;font-weight:900;color:#466747">—</div></div>
       <div class="card" style="padding:1.1rem"><div class="slabel" style="margin-bottom:5px">Latest Score</div><div id="t-latest" style="font-size:1.9rem;font-weight:900;color:#4d44e3">—</div></div>
       <div class="card" style="padding:1.1rem"><div class="slabel" style="margin-bottom:5px">Avg Score</div><div id="t-avg" style="font-size:1.9rem;font-weight:900">—</div></div>
       <div class="card" style="padding:1.1rem"><div class="slabel" style="margin-bottom:5px">Tests Taken</div><div id="t-count" style="font-size:1.9rem;font-weight:900">0</div></div>
     </div>
-    <!-- Score trend bar chart -->
     <div class="card" style="padding:1.4rem;margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <div><div class="slabel" style="margin-bottom:2px">Score Trend</div><div style="font-size:.75rem;color:#566166">Last 8 tests</div></div>
+        <div><div class="slabel" style="margin-bottom:2px">Score Trend</div><div style="font-size:.75rem;color:var(--text-muted)">Last 8 tests</div></div>
         <div id="t-trend-label" style="font-size:.8rem;font-weight:700;color:#466747"></div>
       </div>
       <div id="t-chart" style="display:flex;align-items:flex-end;gap:6px;height:100px"></div>
     </div>
-    <!-- Test list -->
     <div id="test-list" style="display:flex;flex-direction:column;gap:8px"></div>
-    <div id="test-empty" style="text-align:center;padding:48px 0;color:#566166;font-size:.85rem;display:none">
-      <span class="ms" style="font-size:40px;color:#e8eff3;display:block;margin-bottom:8px">assignment</span>
+    <div id="test-empty" style="text-align:center;padding:48px 0;color:var(--text-muted);font-size:.85rem;display:none">
+      <span class="ms" style="font-size:40px;color:var(--card-m);display:block;margin-bottom:8px">assignment</span>
       No tests logged yet. Log your first mock test!
     </div>
   </div>
@@ -387,22 +402,20 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
   <!-- ─── DAILY GOALS ─── -->
   <div id="screen-goals" class="screen page">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
-      <div><div class="slabel" style="margin-bottom:3px">Daily Planning</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Daily Goals</h2><p style="font-size:.82rem;color:#566166;margin-top:3px">Set what you want to achieve today, every day.</p></div>
+      <div><div class="slabel" style="margin-bottom:3px">Daily Planning</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Daily Goals</h2><p style="font-size:.82rem;color:var(--text-muted);margin-top:3px">Set what you want to achieve today, every day.</p></div>
       <button onclick="openAddGoal()" class="btn bp bsm"><span class="ms" style="font-size:15px">add</span>Add Goal</button>
     </div>
-    <!-- Today summary -->
     <div class="card" style="padding:1.4rem;margin-bottom:14px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
         <div><div class="slabel" style="margin-bottom:3px">Today's Progress</div><div id="g-label" style="font-size:1.5rem;font-weight:900">0% Complete</div></div>
         <div style="display:flex;gap:14px;text-align:center">
           <div><div id="g-done" style="font-size:1.4rem;font-weight:900;color:#466747">0</div><div class="slabel">Done</div></div>
           <div><div id="g-left" style="font-size:1.4rem;font-weight:900;color:#4d44e3">0</div><div class="slabel">Left</div></div>
-          <div><div id="g-total" style="font-size:1.4rem;font-weight:900;color:#566166">0</div><div class="slabel">Total</div></div>
+          <div><div id="g-total" style="font-size:1.4rem;font-weight:900;color:var(--text-muted)">0</div><div class="slabel">Total</div></div>
         </div>
       </div>
       <div class="pt" style="height:10px"><div class="pf" id="g-bar" style="height:100%;width:0%"></div></div>
     </div>
-    <!-- Goal type tabs -->
     <div id="goal-tabs" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">
       <button class="ftab active" data-gf="all" onclick="gFilter('all')">All</button>
       <button class="ftab" data-gf="study" onclick="gFilter('study')">Study Hours</button>
@@ -416,7 +429,7 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
   <!-- ─── NOTES ─── -->
   <div id="screen-notes" class="screen page">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
-      <div><div class="slabel" style="margin-bottom:3px">Knowledge Base</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Notes & Flashcards</h2><p style="font-size:.82rem;color:#566166;margin-top:3px">Quick notes and key points attached to your topics.</p></div>
+      <div><div class="slabel" style="margin-bottom:3px">Knowledge Base</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Notes & Flashcards</h2><p style="font-size:.82rem;color:var(--text-muted);margin-top:3px">Quick notes and key points attached to your topics.</p></div>
       <button onclick="openAddNote()" class="btn bp bsm"><span class="ms" style="font-size:15px">add</span>Add Note</button>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px">
@@ -424,8 +437,8 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
       <input id="note-search" type="text" placeholder="Search notes…" class="inp" style="width:160px;padding:7px 11px;font-size:.78rem"/>
     </div>
     <div id="note-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px"></div>
-    <div id="note-empty" style="text-align:center;padding:48px 0;color:#566166;font-size:.85rem;display:none">
-      <span class="ms" style="font-size:40px;color:#e8eff3;display:block;margin-bottom:8px">sticky_note_2</span>
+    <div id="note-empty" style="text-align:center;padding:48px 0;color:var(--text-muted);font-size:.85rem;display:none">
+      <span class="ms" style="font-size:40px;color:var(--card-m);display:block;margin-bottom:8px">sticky_note_2</span>
       No notes yet. Add your first note!
     </div>
   </div>
@@ -434,30 +447,30 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
   <div id="screen-analytics" class="screen page">
     <div style="margin-bottom:20px"><div class="slabel" style="margin-bottom:3px">Overview</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Analytics</h2></div>
     <div class="row4" style="margin-bottom:14px">
-      <div class="card" style="padding:1.2rem;position:relative;overflow:hidden"><div style="position:absolute;right:-8px;top:-8px;opacity:.05"><span class="ms msf" style="font-size:80px;color:#c07a1a">local_fire_department</span></div><div class="slabel" style="margin-bottom:5px">Streak</div><div id="an-streak" style="font-size:2.4rem;font-weight:900;color:#4d44e3;line-height:1">5<span style="font-size:.9rem;color:#566166;font-weight:600">d</span></div><div style="display:flex;align-items:center;gap:3px;margin-top:7px;color:#466747;font-size:.72rem;font-weight:600"><span class="ms" style="font-size:13px">trending_up</span>+2 this week</div></div>
-      <div class="card" style="padding:1.2rem"><div class="slabel" style="margin-bottom:5px">Avg Score</div><div style="font-size:2.4rem;font-weight:900;line-height:1">88<span style="font-size:.9rem;color:#566166;font-weight:600">%</span></div><div style="font-size:.7rem;color:#566166;margin-top:7px">+12% last week</div></div>
-      <div class="card" style="padding:1.2rem"><div class="slabel" style="margin-bottom:5px">Hours</div><div style="font-size:2.4rem;font-weight:900;line-height:1">34.5<span style="font-size:.9rem;color:#566166;font-weight:600">h</span></div><div style="font-size:.7rem;color:#566166;margin-top:7px">This week</div></div>
-      <div class="card" style="padding:1.2rem"><div class="slabel" style="margin-bottom:5px">Tests</div><div id="an-tests" style="font-size:2.4rem;font-weight:900;line-height:1">0</div><div style="font-size:.7rem;color:#566166;margin-top:7px">Taken this month</div></div>
+      <div class="card" style="padding:1.2rem;position:relative;overflow:hidden"><div style="position:absolute;right:-8px;top:-8px;opacity:.05"><span class="ms msf" style="font-size:80px;color:#c07a1a">local_fire_department</span></div><div class="slabel" style="margin-bottom:5px">Streak</div><div id="an-streak" style="font-size:2.4rem;font-weight:900;color:#4d44e3;line-height:1">5<span style="font-size:.9rem;color:var(--text-muted);font-weight:600">d</span></div><div style="display:flex;align-items:center;gap:3px;margin-top:7px;color:#466747;font-size:.72rem;font-weight:600"><span class="ms" style="font-size:13px">trending_up</span>+2 this week</div></div>
+      <div class="card" style="padding:1.2rem"><div class="slabel" style="margin-bottom:5px">Avg Score</div><div style="font-size:2.4rem;font-weight:900;line-height:1">88<span style="font-size:.9rem;color:var(--text-muted);font-weight:600">%</span></div><div style="font-size:.7rem;color:var(--text-muted);margin-top:7px">+12% last week</div></div>
+      <div class="card" style="padding:1.2rem"><div class="slabel" style="margin-bottom:5px">Hours</div><div style="font-size:2.4rem;font-weight:900;line-height:1">34.5<span style="font-size:.9rem;color:var(--text-muted);font-weight:600">h</span></div><div style="font-size:.7rem;color:var(--text-muted);margin-top:7px">This week</div></div>
+      <div class="card" style="padding:1.2rem"><div class="slabel" style="margin-bottom:5px">Tests</div><div id="an-tests" style="font-size:2.4rem;font-weight:900;line-height:1">0</div><div style="font-size:.7rem;color:var(--text-muted);margin-top:7px">Taken this month</div></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
       <div class="card" style="padding:1.4rem">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px"><div><div class="slabel" style="margin-bottom:2px">Hours / Day</div><div style="font-size:.73rem;color:#566166">This week</div></div><span style="font-size:1.2rem;font-weight:900;color:#4d44e3">34.5h</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px"><div><div class="slabel" style="margin-bottom:2px">Hours / Day</div><div style="font-size:.73rem;color:var(--text-muted)">This week</div></div><span style="font-size:1.2rem;font-weight:900;color:#4d44e3">34.5h</span></div>
         <div style="display:flex;align-items:flex-end;gap:4px;height:110px">
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:#e8eff3;height:60%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='#e8eff3'"></div><span style="font-size:8px;font-weight:700;color:#566166">M</span></div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:#e8eff3;height:42%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='#e8eff3'"></div><span style="font-size:8px;font-weight:700;color:#566166">T</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:var(--card-m);height:60%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='var(--card-m)'"></div><span style="font-size:8px;font-weight:700;color:var(--text-muted)">M</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:var(--card-m);height:42%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='var(--card-m)'"></div><span style="font-size:8px;font-weight:700;color:var(--text-muted)">T</span></div>
           <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;height:88%;background:linear-gradient(180deg,#6c64f4,#4d44e3)"></div><span style="font-size:8px;font-weight:700;color:#4d44e3">W</span></div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:#e8eff3;height:52%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='#e8eff3'"></div><span style="font-size:8px;font-weight:700;color:#566166">T</span></div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:#e8eff3;height:68%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='#e8eff3'"></div><span style="font-size:8px;font-weight:700;color:#566166">F</span></div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:#e1e9ee;height:24%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='#e1e9ee'"></div><span style="font-size:8px;font-weight:700;color:#566166">S</span></div>
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:#e1e9ee;height:14%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='#e1e9ee'"></div><span style="font-size:8px;font-weight:700;color:#566166">S</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:var(--card-m);height:52%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='var(--card-m)'"></div><span style="font-size:8px;font-weight:700;color:var(--text-muted)">T</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:var(--card-m);height:68%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='var(--card-m)'"></div><span style="font-size:8px;font-weight:700;color:var(--text-muted)">F</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:var(--card-m);height:24%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='var(--card-m)'"></div><span style="font-size:8px;font-weight:700;color:var(--text-muted)">S</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:var(--card-m);height:14%;transition:.15s" onmouseover="this.style.background='rgba(77,68,227,.22)'" onmouseout="this.style.background='var(--card-m)'"></div><span style="font-size:8px;font-weight:700;color:var(--text-muted)">S</span></div>
         </div>
       </div>
       <div class="card" style="padding:1.4rem"><div class="slabel" style="margin-bottom:12px">Subject Breakdown</div><div id="an-subjbars" style="display:flex;flex-direction:column;gap:9px"></div></div>
     </div>
     <div class="card" style="padding:1.4rem">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-        <div><div class="slabel" style="margin-bottom:2px">Activity Heatmap</div><div style="font-size:.73rem;color:#566166">Last 15 weeks</div></div>
-        <div style="display:flex;align-items:center;gap:5px;font-size:.7rem;color:#566166;font-weight:600">Less<div style="display:flex;gap:2px"><div class="hcell h0"></div><div class="hcell h1"></div><div class="hcell h2"></div><div class="hcell h3"></div><div class="hcell h4"></div></div>More</div>
+        <div><div class="slabel" style="margin-bottom:2px">Activity Heatmap</div><div style="font-size:.73rem;color:var(--text-muted)">Last 15 weeks</div></div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--text-muted);font-weight:600">Less<div style="display:flex;gap:2px"><div class="hcell h0"></div><div class="hcell h1"></div><div class="hcell h2"></div><div class="hcell h3"></div><div class="hcell h4"></div></div>More</div>
       </div>
       <div style="overflow-x:auto"><div id="heatmap" style="display:flex;gap:3px;min-width:max-content"></div></div>
     </div>
@@ -469,9 +482,13 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
     <div class="card" style="margin-bottom:12px">
       <div class="slabel" style="margin-bottom:12px">Profile</div>
       <div style="display:flex;flex-direction:column;gap:10px">
-        <div><label class="slabel" style="display:block;margin-bottom:4px">Your Name</label><input id="s-name" type="text" class="inp" placeholder="Alex Kumar"/></div>
+        <div><label class="slabel" style="display:block;margin-bottom:4px">Your Name</label><input id="s-name" type="text" class="inp" placeholder="Rishav Kumar"/></div>
         <div><label class="slabel" style="display:block;margin-bottom:4px">Exam / Goal</label><input id="s-exam" type="text" class="inp" placeholder="UPSC 2025, CAT, JEE…"/></div>
         <button onclick="saveProfile()" class="btn bp bsm" style="align-self:flex-start">Save Profile</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+        <div><div style="font-size:.86rem;font-weight:600">Dark Mode</div><div style="font-size:.73rem;color:var(--text-muted)">Toggle app theme</div></div>
+        <button onclick="toggleTheme()" class="btn bg bsm"><span class="ms" style="font-size:16px">dark_mode</span></button>
       </div>
     </div>
     <div class="card" style="margin-bottom:12px">
@@ -483,19 +500,19 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
     </div>
     <div class="card" style="margin-bottom:12px">
       <div class="slabel" style="margin-bottom:4px">Focus Timer</div>
-      <div style="padding:12px 0;border-bottom:1px solid #f0f4f7;display:flex;align-items:center;justify-content:space-between">
-        <div><div style="font-size:.86rem;font-weight:600">Focus Duration</div><div style="font-size:.73rem;color:#566166">Minutes per session</div></div>
+      <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div><div style="font-size:.86rem;font-weight:600">Focus Duration</div><div style="font-size:.73rem;color:var(--text-muted)">Minutes per session</div></div>
         <select id="s-focus" class="inp" style="width:90px" onchange="saveSetting('focusDur',this.value)"><option value="15">15 min</option><option value="20">20 min</option><option value="25" selected>25 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="50">50 min</option></select>
       </div>
       <div style="padding:12px 0;display:flex;align-items:center;justify-content:space-between">
-        <div><div style="font-size:.86rem;font-weight:600">Break Duration</div><div style="font-size:.73rem;color:#566166">Minutes per break</div></div>
+        <div><div style="font-size:.86rem;font-weight:600">Break Duration</div><div style="font-size:.73rem;color:var(--text-muted)">Minutes per break</div></div>
         <select id="s-break" class="inp" style="width:90px" onchange="saveSetting('breakDur',this.value)"><option value="5" selected>5 min</option><option value="10">10 min</option><option value="15">15 min</option></select>
       </div>
     </div>
     <div class="card" style="border:1.5px solid #ffe4e8">
       <div class="slabel" style="color:#9e3f4e;margin-bottom:12px">Data</div>
       <div style="display:flex;align-items:center;justify-content:space-between">
-        <div><div style="font-size:.86rem;font-weight:600">Reset All Data</div><div style="font-size:.73rem;color:#566166">Clears everything</div></div>
+        <div><div style="font-size:.86rem;font-weight:600">Reset All Data</div><div style="font-size:.73rem;color:var(--text-muted)">Clears everything</div></div>
         <button onclick="clearData()" class="btn bd bsm">Reset</button>
       </div>
     </div>
@@ -514,30 +531,30 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 
 <!-- ══════════════ FOCUS MODAL ══════════════ -->
 <div id="focus-ov" class="ov" onclick="if(event.target===this)closeFocus()">
-  <div class="modal" style="width:min(420px,96vw);text-align:center">
+  <div class="modal" style="text-align:center">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;text-align:left">
       <div style="display:flex;align-items:center;gap:9px"><div style="width:30px;height:30px;border-radius:9px;background:rgba(77,68,227,.1);display:flex;align-items:center;justify-content:center"><span class="ms" style="color:#4d44e3;font-size:17px">timer</span></div><span style="font-size:.96rem;font-weight:800">Focus Timer</span></div>
-      <button class="close-btn" onclick="closeFocus()"><span class="ms" style="font-size:15px;color:#566166">close</span></button>
+      <button class="close-btn" onclick="closeFocus()"><span class="ms" style="font-size:15px;color:var(--text-muted)">close</span></button>
     </div>
-    <div style="display:flex;gap:4px;background:#f0f4f7;border-radius:999px;padding:3px;margin-bottom:20px">
+    <div style="display:flex;gap:4px;background:var(--card-m);border-radius:999px;padding:3px;margin-bottom:20px">
       <button id="f-focus-btn" onclick="setTMode('focus')" style="flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:#4d44e3;color:#fff;transition:all .14s">Focus</button>
-      <button id="f-break-btn" onclick="setTMode('break')" style="flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:transparent;color:#566166;transition:all .14s">Break</button>
+      <button id="f-break-btn" onclick="setTMode('break')" style="flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:transparent;color:var(--text-muted);transition:all .14s">Break</button>
     </div>
     <div style="position:relative;width:170px;height:170px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center">
       <svg style="position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)" viewBox="0 0 200 200">
-        <circle cx="100" cy="100" r="88" fill="transparent" stroke="#e8eff3" stroke-width="9"/>
+        <circle cx="100" cy="100" r="88" fill="transparent" stroke="var(--card-m)" stroke-width="9"/>
         <circle id="t-ring" cx="100" cy="100" r="88" fill="transparent" stroke="#4d44e3" stroke-width="9" stroke-dasharray="553" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset 1s linear"/>
       </svg>
-      <div style="position:relative;z-index:1"><div id="t-disp" style="font-size:2.6rem;font-weight:900;color:#1a2228;letter-spacing:-.03em;line-height:1">25:00</div><div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#566166;margin-top:3px">remaining</div></div>
+      <div style="position:relative;z-index:1"><div id="t-disp" style="font-size:2.6rem;font-weight:900;color:var(--text);letter-spacing:-.03em;line-height:1">25:00</div><div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-top:3px">remaining</div></div>
     </div>
     <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px">
-      <button onclick="resetTimer()" style="width:40px;height:40px;border-radius:50%;background:#f0f4f7;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center" onmouseover="this.style.background='#e1e9ee'" onmouseout="this.style.background='#f0f4f7'"><span class="ms" style="font-size:17px;color:#566166">refresh</span></button>
+      <button onclick="resetTimer()" style="width:40px;height:40px;border-radius:50%;background:var(--card-m);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center" onmouseover="this.style.background='rgba(100,100,100,0.2)'" onmouseout="this.style.background='var(--card-m)'"><span class="ms" style="font-size:17px;color:var(--text-muted)">refresh</span></button>
       <button id="t-btn" onclick="toggleTimer()" class="btn bp" style="padding:11px 26px;font-size:.88rem">Start Focus</button>
-      <button onclick="go('settings');closeFocus()" style="width:40px;height:40px;border-radius:50%;background:#f0f4f7;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:17px;color:#566166">settings</span></button>
+      <button onclick="go('settings');closeFocus()" style="width:40px;height:40px;border-radius:50%;background:var(--card-m);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:17px;color:var(--text-muted)">settings</span></button>
     </div>
-    <div style="background:#f0f4f7;border-radius:.9rem;padding:12px;text-align:left">
+    <div style="background:var(--card-m);border-radius:.9rem;padding:12px;text-align:left">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span class="slabel">Sessions Today</span><span id="s-target" style="font-size:.76rem;font-weight:700;color:#466747"></span></div>
-      <div style="display:flex;align-items:baseline;gap:5px;margin-bottom:8px"><span id="s-done" style="font-size:1.8rem;font-weight:900">4</span><span style="font-size:.8rem;color:#566166">completed</span></div>
+      <div style="display:flex;align-items:baseline;gap:5px;margin-bottom:8px"><span id="s-done" style="font-size:1.8rem;font-weight:900">4</span><span style="font-size:.8rem;color:var(--text-muted)">completed</span></div>
       <div id="s-dots" style="display:flex;gap:4px"></div>
     </div>
   </div>
@@ -546,10 +563,10 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 <!-- ══════════════ QUICK ADD ══════════════ -->
 <div id="qa-ov" class="ov" onclick="if(event.target===this)closeQA()">
   <div class="modal">
-    <div class="modal-hd"><span class="modal-title">Quick Add</span><button class="close-btn" onclick="closeQA()"><span class="ms" style="font-size:15px;color:#566166">close</span></button></div>
-    <div style="display:flex;gap:4px;background:#f0f4f7;border-radius:999px;padding:3px;margin-bottom:16px">
+    <div class="modal-hd"><span class="modal-title">Quick Add</span><button class="close-btn" onclick="closeQA()"><span class="ms" style="font-size:15px;color:var(--text-muted)">close</span></button></div>
+    <div style="display:flex;gap:4px;background:var(--card-m);border-radius:999px;padding:3px;margin-bottom:16px">
       <button id="qa-t-task" onclick="qaTab('task')" style="flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.76rem;font-weight:700;cursor:pointer;background:#4d44e3;color:#fff;transition:all .14s">Task</button>
-      <button id="qa-t-log"  onclick="qaTab('log')"  style="flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.76rem;font-weight:700;cursor:pointer;background:transparent;color:#566166;transition:all .14s">Study Log</button>
+      <button id="qa-t-log"  onclick="qaTab('log')"  style="flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.76rem;font-weight:700;cursor:pointer;background:transparent;color:var(--text-muted);transition:all .14s">Study Log</button>
     </div>
     <div id="qa-task-f">
       <div style="display:flex;flex-direction:column;gap:9px">
@@ -561,7 +578,7 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
       <div style="display:flex;flex-direction:column;gap:9px">
         <div><label class="slabel" style="display:block;margin-bottom:4px">Topic *</label><input id="qa-ltopic" type="text" class="inp" placeholder="e.g. Algebra — Systems of Equations" onkeydown="if(event.key==='Enter')submitQA()"/></div>
         <div class="row2"><div><label class="slabel" style="display:block;margin-bottom:4px">Subject</label><select id="qa-lsubj" class="inp"></select></div><div><label class="slabel" style="display:block;margin-bottom:4px">Duration</label><select id="qa-ldur" class="inp"><option>30 min</option><option>45 min</option><option>1 hr</option><option>1.5 hr</option><option>2 hr</option><option>2.5 hr</option><option>3 hr</option></select></div></div>
-        <div><label class="slabel" style="display:block;margin-bottom:6px">Difficulty</label><div style="display:flex;gap:6px"><button type="button" class="dpb btn" onclick="setDiff(this,'Easy')" style="flex:1;padding:7px;font-size:.78rem;background:#d7fed4;color:#466747;border-radius:10px">Easy</button><button type="button" class="dpb btn" onclick="setDiff(this,'Medium')" style="flex:1;padding:7px;font-size:.78rem;background:#4d44e3;color:#fff;border-radius:10px">Medium</button><button type="button" class="dpb btn" onclick="setDiff(this,'Hard')" style="flex:1;padding:7px;font-size:.78rem;background:#f0f4f7;color:#566166;border-radius:10px">Hard</button></div></div>
+        <div><label class="slabel" style="display:block;margin-bottom:6px">Difficulty</label><div style="display:flex;gap:6px"><button type="button" class="dpb btn" onclick="setDiff(this,'Easy')" style="flex:1;padding:7px;font-size:.78rem;background:#d7fed4;color:#466747;border-radius:10px">Easy</button><button type="button" class="dpb btn" onclick="setDiff(this,'Medium')" style="flex:1;padding:7px;font-size:.78rem;background:#4d44e3;color:#fff;border-radius:10px">Medium</button><button type="button" class="dpb btn" onclick="setDiff(this,'Hard')" style="flex:1;padding:7px;font-size:.78rem;background:var(--card-m);color:var(--text-muted);border-radius:10px">Hard</button></div></div>
       </div>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:7px;margin-top:16px">
@@ -573,8 +590,8 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 
 <!-- ══════════════ ADD REVISION ══════════════ -->
 <div id="rev-ov" class="ov" onclick="if(event.target===this)closeRevOv()">
-  <div class="modal" style="width:min(460px,96vw)">
-    <div class="modal-hd"><span id="rev-modal-title" class="modal-title">Add Revision Topic</span><button class="close-btn" onclick="closeRevOv()"><span class="ms" style="font-size:15px;color:#566166">close</span></button></div>
+  <div class="modal">
+    <div class="modal-hd"><span id="rev-modal-title" class="modal-title">Add Revision Topic</span><button class="close-btn" onclick="closeRevOv()"><span class="ms" style="font-size:15px;color:var(--text-muted)">close</span></button></div>
     <div style="display:flex;flex-direction:column;gap:9px">
       <div><label class="slabel" style="display:block;margin-bottom:4px">Topic Name *</label><input id="rev-name" type="text" class="inp" placeholder="e.g. Organic Chemistry — Reactions"/></div>
       <div class="row2">
@@ -592,8 +609,8 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 
 <!-- ══════════════ ADD TEST ══════════════ -->
 <div id="test-ov" class="ov" onclick="if(event.target===this)closeTestOv()">
-  <div class="modal" style="width:min(460px,96vw)">
-    <div class="modal-hd"><span class="modal-title">Log Mock Test</span><button class="close-btn" onclick="closeTestOv()"><span class="ms" style="font-size:15px;color:#566166">close</span></button></div>
+  <div class="modal">
+    <div class="modal-hd"><span class="modal-title">Log Mock Test</span><button class="close-btn" onclick="closeTestOv()"><span class="ms" style="font-size:15px;color:var(--text-muted)">close</span></button></div>
     <div style="display:flex;flex-direction:column;gap:9px">
       <div><label class="slabel" style="display:block;margin-bottom:4px">Test Name *</label><input id="t-name" type="text" class="inp" placeholder="e.g. UPSC Prelims Mock #4"/></div>
       <div class="row2">
@@ -615,8 +632,8 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 
 <!-- ══════════════ ADD GOAL ══════════════ -->
 <div id="goal-ov" class="ov" onclick="if(event.target===this)closeGoalOv()">
-  <div class="modal" style="width:min(420px,96vw)">
-    <div class="modal-hd"><span class="modal-title">Add Daily Goal</span><button class="close-btn" onclick="closeGoalOv()"><span class="ms" style="font-size:15px;color:#566166">close</span></button></div>
+  <div class="modal">
+    <div class="modal-hd"><span class="modal-title">Add Daily Goal</span><button class="close-btn" onclick="closeGoalOv()"><span class="ms" style="font-size:15px;color:var(--text-muted)">close</span></button></div>
     <div style="display:flex;flex-direction:column;gap:9px">
       <div><label class="slabel" style="display:block;margin-bottom:4px">Goal *</label><input id="g-text" type="text" class="inp" placeholder="e.g. Study 4 hours today" onkeydown="if(event.key==='Enter')saveGoal()"/></div>
       <div class="row2">
@@ -633,8 +650,8 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 
 <!-- ══════════════ ADD NOTE ══════════════ -->
 <div id="note-ov" class="ov" onclick="if(event.target===this)closeNoteOv()">
-  <div class="modal" style="width:min(480px,96vw)">
-    <div class="modal-hd"><span id="note-modal-title" class="modal-title">Add Note</span><button class="close-btn" onclick="closeNoteOv()"><span class="ms" style="font-size:15px;color:#566166">close</span></button></div>
+  <div class="modal">
+    <div class="modal-hd"><span id="note-modal-title" class="modal-title">Add Note</span><button class="close-btn" onclick="closeNoteOv()"><span class="ms" style="font-size:15px;color:var(--text-muted)">close</span></button></div>
     <div style="display:flex;flex-direction:column;gap:9px">
       <div><label class="slabel" style="display:block;margin-bottom:4px">Title *</label><input id="n-title" type="text" class="inp" placeholder="e.g. Hess's Law Summary"/></div>
       <div class="row2"><div><label class="slabel" style="display:block;margin-bottom:4px">Subject</label><select id="n-subj" class="inp"></select></div><div><label class="slabel" style="display:block;margin-bottom:4px">Type</label><select id="n-type" class="inp"><option value="note">Note</option><option value="flash">Flashcard</option><option value="formula">Formula</option><option value="tip">Key Tip</option></select></div></div>
@@ -650,8 +667,8 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 
 <!-- ══════════════ SUBJECT MODAL ══════════════ -->
 <div id="subj-ov" class="ov" onclick="if(event.target===this)closeSubjOv()">
-  <div class="modal" style="width:min(400px,96vw)">
-    <div class="modal-hd"><span id="subj-modal-title" class="modal-title">Add Subject</span><button class="close-btn" onclick="closeSubjOv()"><span class="ms" style="font-size:15px;color:#566166">close</span></button></div>
+  <div class="modal">
+    <div class="modal-hd"><span id="subj-modal-title" class="modal-title">Add Subject</span><button class="close-btn" onclick="closeSubjOv()"><span class="ms" style="font-size:15px;color:var(--text-muted)">close</span></button></div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <div><label class="slabel" style="display:block;margin-bottom:4px">Name *</label><input id="sj-name" type="text" class="inp" placeholder="e.g. Organic Chemistry"/></div>
       <div><label class="slabel" style="display:block;margin-bottom:7px">Color</label><div id="sj-colors" style="display:flex;gap:6px;flex-wrap:wrap"></div></div>
@@ -668,12 +685,26 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:#e8eff3;color:
 <!-- ══════════════ COMMAND ══════════════ -->
 <div id="cmd-ov" class="ov" onclick="if(event.target===this)closeCmd()">
   <div id="cmd-box">
-    <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;border-bottom:1px solid #f0f4f7">
-      <span class="ms" style="color:#566166;font-size:19px">search</span>
-      <input id="cmd-inp" type="text" placeholder="Navigate, search or act…" autocomplete="off" style="flex:1;background:transparent;border:none;outline:none;font-size:.93rem;font-family:'Inter';color:#1a2228;font-weight:500" oninput="filterCmd(this.value)" onkeydown="cmdKey(event)"/>
+    <div style="display:flex;align-items:center;gap:9px;padding:11px 15px;border-bottom:1px solid var(--border)">
+      <span class="ms" style="color:var(--text-muted);font-size:19px">search</span>
+      <input id="cmd-inp" type="text" placeholder="Navigate, search or act…" autocomplete="off" style="flex:1;background:transparent;border:none;outline:none;font-size:.93rem;font-family:'Inter';color:var(--text);font-weight:500" oninput="filterCmd(this.value)" onkeydown="cmdKey(event)"/>
       <kbd>ESC</kbd>
     </div>
     <div id="cmd-res" style="padding:5px 0;max-height:280px;overflow-y:auto"></div>
+  </div>
+</div>
+
+<!-- ══════════════ ONBOARDING MODAL ══════════════ -->
+<div id="onboard-ov" class="ov" style="z-index:9999; background: var(--bg);">
+  <div class="modal" style="text-align:center; box-shadow: none">
+    <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#4d44e3,#3d35c7);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><span class="ms msf" style="font-size:24px;color:#fff">bolt</span></div>
+    <h2 style="font-size:1.4rem;font-weight:900;margin-bottom:8px">Welcome</h2>
+    <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:20px">Set up your profile to get started.</p>
+    <div style="text-align:left;display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
+      <div><label class="slabel">Your Name</label><input id="ob-name" class="inp" placeholder="e.g. Rishav Kumar"></div>
+      <div><label class="slabel">Target Exam / Goal</label><input id="ob-exam" class="inp" placeholder="e.g. UPSC, JEE, Coding"></div>
+    </div>
+    <button onclick="saveOnboard()" class="btn bp" style="width:100%;justify-content:center">Start Planning</button>
   </div>
 </div>
 
@@ -688,7 +719,7 @@ const ICONS=['calculate','translate','museum','science','book','psychology','lan
 const DS=[{id:'quant',name:'Quant Aptitude',color:'#4d44e3',light:'#ede9ff',icon:'calculate'},{id:'english',name:'English',color:'#c07a1a',light:'#fef3d7',icon:'translate'},{id:'history',name:'History',color:'#466747',light:'#d7fed4',icon:'museum'},{id:'science',name:'Science',color:'#1a7a8a',light:'#e0f4f7',icon:'science'}];
 const DT=[{id:1,text:'Solve 20 quant questions',subjId:'quant',done:true},{id:2,text:'Read 5 pages of vocabulary',subjId:'english',done:false},{id:3,text:'Practice 2 reading comprehensions',subjId:'english',done:true},{id:4,text:'Watch History lecture',subjId:'history',done:false}];
 const DL=[{id:1,topic:'Quant Aptitude',subtopic:'Algebra — Systems of Equations',subjId:'quant',duration:'2h 00m',difficulty:'Hard',date:'Oct 24'},{id:2,topic:'English',subtopic:'Reading Comprehension — Analysis',subjId:'english',duration:'45m',difficulty:'Medium',date:'Oct 24'},{id:3,topic:'History',subtopic:'French Revolution — Fall of Bastille',subjId:'history',duration:'1h 30m',difficulty:'Easy',date:'Oct 23'}];
-const DSET={name:'Alex Kumar',exam:'UPSC 2025',focusDur:25,breakDur:5,streak:5};
+const DSET={name:'Alex Kumar',exam:'UPSC 2025',focusDur:25,breakDur:5,streak:5,darkMode:false};
 const DR=[{id:1,topic:'Organic Chemistry — Reactions',subjId:'science',nextDate:new Date().toISOString().slice(0,10),interval:1,ease:2.5,reps:0,done:false},{id:2,topic:'Algebra — Quadratic Equations',subjId:'quant',nextDate:new Date(Date.now()-86400000).toISOString().slice(0,10),interval:1,ease:2.5,reps:3,done:false}];
 const DTESTS=[];
 const DGOALS=[{id:1,text:'Study for 4 hours',cat:'study',target:4,progress:2.5,done:false},{id:2,text:'Complete 3 revision sessions',cat:'revision',target:3,progress:1,done:false},{id:3,text:'Finish today\'s task list',cat:'tasks',target:4,progress:2,done:false}];
@@ -706,15 +737,14 @@ let tests=raw.tests||JSON.parse(JSON.stringify(DTESTS));
 let goals=raw.goals||JSON.parse(JSON.stringify(DGOALS));
 let notes=raw.notes||JSON.parse(JSON.stringify(DNOTES));
 let settings=raw.settings||JSON.parse(JSON.stringify(DSET));
-let idc={task:Math.max(0,...tasks.map(t=>t.id))+1,log:Math.max(0,...logs.map(l=>l.id))+1,rev:Math.max(0,...revisions.map(r=>r.id))+1,test:1,goal:Math.max(0,...goals.map(g=>g.id))+1,note:Math.max(0,...notes.map(n=>n.id))+1,subj:50};
-function sj(id){return subjects.find(s=>s.id===id)||{name:'Unknown',color:'#566166',light:'#e8eff3',icon:'book'}}
+let idc={task:Math.max(0,...tasks.map(t=>t.id))+1,log:Math.max(0,...logs.map(l=>l.id))+1,rev:Math.max(0,...revisions.map(r=>r.id))+1,test:Math.max(0,...tests.map(t=>t.id),0)+1,goal:Math.max(0,...goals.map(g=>g.id))+1,note:Math.max(0,...notes.map(n=>n.id))+1,subj:50};
+function sj(id){return subjects.find(s=>s.id===id)||{name:'Unknown',color:'#566166',light:'var(--card-m)',icon:'book'}}
 const today=()=>new Date().toISOString().slice(0,10);
 
 // ═══════════════════ RESPONSIVE ═══════════════════
 function chkMob(){
   const m=window.innerWidth<768;
   document.getElementById('mob-logo').style.display=m?'flex':'none';
-  document.getElementById('mob-search').style.display=m?'flex':'none';
   document.getElementById('page-title').style.display=m?'none':'block';
   document.getElementById('add-label').style.display=m?'none':'inline';
 }
@@ -737,7 +767,7 @@ function go(s){
 
 // ═══════════════════ SIDEBAR ═══════════════════
 function rdSidebar(){
-  document.getElementById('sb-subjects').innerHTML=subjects.map(s=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 22px;font-size:.71rem;font-weight:600;color:#566166;cursor:default"><span class="sdot" style="background:${s.color}"></span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.name}</span></div>`).join('');
+  document.getElementById('sb-subjects').innerHTML=subjects.map(s=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 22px;font-size:.71rem;font-weight:600;color:var(--text-muted);cursor:default"><span class="sdot" style="background:${s.color}"></span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.name}</span></div>`).join('');
   document.getElementById('sb-name').textContent=settings.name||'';
   document.getElementById('sb-exam').textContent=settings.exam||'';
   document.getElementById('sb-avatar').textContent=(settings.name||'A')[0].toUpperCase();
@@ -753,14 +783,14 @@ function rdDash(){
   document.getElementById('d-greet').innerHTML=`${greet}, <span style="color:#4d44e3">${fn}</span> 👋`;
   const dc=tasks.filter(t=>t.done).length;
   document.getElementById('d-taskcount').textContent=dc+'/'+tasks.length;
-  document.getElementById('d-tasks').innerHTML=tasks.slice(0,4).map(t=>{const s=sj(t.subjId);return`<div style="display:flex;align-items:center;gap:7px;padding:3px 0;cursor:pointer" onclick="go('tasks')"><div style="width:17px;height:17px;border-radius:50%;flex-shrink:0;${t.done?'background:'+s.color+';display:flex;align-items:center;justify-content:center':'border:2px solid #c5ced3'}"> ${t.done?'<span class="ms msf" style="font-size:9px;color:#fff">check</span>':''}</div><span style="font-size:.76rem;font-weight:500;${t.done?'text-decoration:line-through;color:#a9b4b9':'color:#1a2228'};flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.text}</span></div>`}).join('');
-  document.getElementById('d-logs').innerHTML=logs.slice(0,3).map(l=>{const s=sj(l.subjId);return`<div style="display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:8px;cursor:pointer;transition:background .12s" onclick="go('studylog')" onmouseover="this.style.background='#f0f4f7'" onmouseout="this.style.background='transparent'"><div style="width:30px;height:30px;border-radius:8px;background:${s.light};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:${s.color};font-size:15px">${s.icon}</span></div><div style="flex:1;min-width:0"><div style="font-size:.78rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.topic}</div><div style="font-size:.7rem;color:#566166">${l.duration}</div></div><span style="font-size:.68rem;color:#566166;font-weight:600;flex-shrink:0">${l.date}</span></div>`}).join('');
+  document.getElementById('d-tasks').innerHTML=tasks.slice(0,4).map(t=>{const s=sj(t.subjId);return`<div style="display:flex;align-items:center;gap:7px;padding:3px 0;cursor:pointer" onclick="go('tasks')"><div style="width:17px;height:17px;border-radius:50%;flex-shrink:0;${t.done?'background:'+s.color+';display:flex;align-items:center;justify-content:center':'border:2px solid #c5ced3'}"> ${t.done?'<span class="ms msf" style="font-size:9px;color:#fff">check</span>':''}</div><span style="font-size:.76rem;font-weight:500;${t.done?'text-decoration:line-through;color:var(--text-muted)':'color:var(--text)'};flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.text}</span></div>`}).join('');
+  document.getElementById('d-logs').innerHTML=logs.slice(0,3).map(l=>{const s=sj(l.subjId);return`<div style="display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:8px;cursor:pointer;transition:background .12s" onclick="go('studylog')" onmouseover="this.style.background='var(--card-m)'" onmouseout="this.style.background='transparent'"><div style="width:30px;height:30px;border-radius:8px;background:${s.light};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:${s.color};font-size:15px">${s.icon}</span></div><div style="flex:1;min-width:0"><div style="font-size:.78rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${l.topic}</div><div style="font-size:.7rem;color:var(--text-muted)">${l.duration}</div></div><span style="font-size:.68rem;color:var(--text-muted);font-weight:600;flex-shrink:0">${l.date}</span></div>`}).join('');
   // Due revisions
   const due=revisions.filter(r=>!r.done&&r.nextDate<=today()).slice(0,3);
-  document.getElementById('d-revdue').innerHTML=due.length?due.map(r=>{const s=sj(r.subjId);const ov=r.nextDate<today();return`<div style="display:flex;align-items:center;gap:7px;padding:4px 0;cursor:pointer" onclick="go('revision')"><span class="sdot" style="background:${ov?'#9e3f4e':'#c07a1a'}"></span><span style="font-size:.76rem;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.topic}</span><span style="font-size:.66rem;font-weight:700;background:${s.light};color:${s.color};padding:1px 7px;border-radius:999px">${s.name}</span></div>`}).join(''):`<div style="font-size:.78rem;color:#a9b4b9;padding:6px 0">All caught up! ✓</div>`;
+  document.getElementById('d-revdue').innerHTML=due.length?due.map(r=>{const s=sj(r.subjId);const ov=r.nextDate<today();return`<div style="display:flex;align-items:center;gap:7px;padding:4px 0;cursor:pointer" onclick="go('revision')"><span class="sdot" style="background:${ov?'#9e3f4e':'#c07a1a'}"></span><span style="font-size:.76rem;font-weight:500;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.topic}</span><span style="font-size:.66rem;font-weight:700;background:${s.light};color:${s.color};padding:1px 7px;border-radius:999px">${s.name}</span></div>`}).join(''):`<div style="font-size:.78rem;color:var(--text-muted);padding:6px 0">All caught up! ✓</div>`;
   // Today goals
   const doneG=goals.filter(g=>g.done).length;
-  document.getElementById('d-goals').innerHTML=goals.slice(0,3).map(g=>`<div style="display:flex;align-items:center;gap:7px;padding:4px 0;cursor:pointer" onclick="go('goals')"><div style="width:17px;height:17px;border-radius:50%;flex-shrink:0;${g.done?'background:#466747;display:flex;align-items:center;justify-content:center':'border:2px solid #c5ced3'}">${g.done?'<span class="ms msf" style="font-size:9px;color:#fff">check</span>':''}</div><span style="font-size:.76rem;font-weight:500;${g.done?'text-decoration:line-through;color:#a9b4b9':'color:#1a2228'};flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.text}</span></div>`).join('');
+  document.getElementById('d-goals').innerHTML=goals.slice(0,3).map(g=>`<div style="display:flex;align-items:center;gap:7px;padding:4px 0;cursor:pointer" onclick="go('goals')"><div style="width:17px;height:17px;border-radius:50%;flex-shrink:0;${g.done?'background:#466747;display:flex;align-items:center;justify-content:center':'border:2px solid #c5ced3'}">${g.done?'<span class="ms msf" style="font-size:9px;color:#fff">check</span>':''}</div><span style="font-size:.76rem;font-weight:500;${g.done?'text-decoration:line-through;color:var(--text-muted)':'color:var(--text)'};flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.text}</span></div>`).join('');
 }
 
 // ═══════════════════ TASKS ═══════════════════
@@ -777,10 +807,11 @@ function rdTasks(){
   if(tFilt==='pending')fl=tasks.filter(t=>!t.done);
   else if(tFilt==='done')fl=tasks.filter(t=>t.done);
   else if(tFilt!=='all')fl=tasks.filter(t=>t.subjId===tFilt);
-  document.getElementById('task-list').innerHTML=fl.length?fl.map(t=>{const s=sj(t.subjId);return`<div class="tr ${t.done?'done':''}" onclick="toggleTask(${t.id})" style="${t.done?'border-left-color:'+s.color:''}"><div class="chk ${t.done?'on':''}" style="${t.done?'background:'+s.color:''}"> ${t.done?'<span class="ms msf" style="font-size:12px;color:#fff">check</span>':''}</div><div style="flex:1;min-width:0"><div style="font-size:.83rem;font-weight:600;${t.done?'text-decoration:line-through;opacity:.5':''}overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.text}</div><div style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:1px;color:${t.done?s.color:'#566166'}">${s.name}${t.done?' · Done':''}</div></div><span class="tag" style="background:${s.light};color:${s.color};font-size:.6rem">${s.name}</span></div>`}).join(''):`<div style="text-align:center;padding:36px 0;color:#566166;font-size:.83rem">No tasks here.</div>`;
+  document.getElementById('task-list').innerHTML=fl.length?fl.map(t=>{const s=sj(t.subjId);return`<div class="tr ${t.done?'done':''}" onclick="toggleTask(${t.id})" style="${t.done?'border-left-color:'+s.color:''}"><div class="chk ${t.done?'on':''}" style="${t.done?'background:'+s.color:''}"> ${t.done?'<span class="ms msf" style="font-size:12px;color:#fff">check</span>':''}</div><div style="flex:1;min-width:0"><div style="font-size:.83rem;font-weight:600;${t.done?'text-decoration:line-through;opacity:.5':''}overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.text}</div><div style="font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:1px;color:${t.done?s.color:'var(--text-muted)'}">${s.name}${t.done?' · Done':''}</div></div><span class="tag" style="background:${s.light};color:${s.color};font-size:.6rem">${s.name}</span><button onclick="deleteTask(${t.id}); event.stopPropagation();" style="background:none;border:none;cursor:pointer;padding:4px"><span class="ms" style="font-size:16px;color:#9e3f4e">delete</span></button></div>`}).join(''):`<div style="text-align:center;padding:36px 0;color:var(--text-muted);font-size:.83rem">No tasks here.</div>`;
 }
 function tFiltSet(f){tFilt=f;rdTasks()}
 function toggleTask(id){const t=tasks.find(t=>t.id===id);if(t){t.done=!t.done;save();rdTasks();if(cur==='dashboard')rdDash()}}
+function deleteTask(id) { tasks = tasks.filter(t => t.id !== id); save(); rdTasks(); if(cur==='dashboard') rdDash(); showToast('Task deleted'); }
 
 // ═══════════════════ LOGS ═══════════════════
 let lFilt='all',lSrch='';
@@ -790,7 +821,7 @@ function rdLogs(){
   if(lFilt!=='all')fl=fl.filter(l=>l.subjId===lFilt);
   if(lSrch)fl=fl.filter(l=>(l.topic+l.subtopic).toLowerCase().includes(lSrch));
   document.getElementById('ls-topics').textContent=fl.length;
-  document.getElementById('log-list').innerHTML=fl.length?fl.map(l=>{const s=sj(l.subjId);const dc={Hard:'th',Medium:'tm',Easy:'te'}[l.difficulty]||'tm';return`<div class="lr"><div style="width:38px;height:38px;border-radius:9px;background:${s.light};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:${s.color};font-size:17px">${s.icon}</span></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap"><span style="font-size:.82rem;font-weight:700">${l.topic}</span><span class="tag ${dc}">${l.difficulty}</span></div><div style="font-size:.72rem;color:#566166;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic">${l.subtopic}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0"><div style="display:flex;align-items:center;gap:3px;color:#4d44e3;font-weight:700;font-size:.78rem"><span class="ms" style="font-size:13px">schedule</span>${l.duration}</div><span style="font-size:.66rem;color:#566166;font-weight:600;text-transform:uppercase;letter-spacing:.06em">${l.date}</span></div><span class="tag te" style="flex-shrink:0">Done</span></div>`}).join(''):`<div style="text-align:center;padding:40px 0;color:#566166;font-size:.83rem">No entries found.</div>`;
+  document.getElementById('log-list').innerHTML=fl.length?fl.map(l=>{const s=sj(l.subjId);const dc={Hard:'th',Medium:'tm',Easy:'te'}[l.difficulty]||'tm';return`<div class="lr"><div style="width:38px;height:38px;border-radius:9px;background:${s.light};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:${s.color};font-size:17px">${s.icon}</span></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap"><span style="font-size:.82rem;font-weight:700">${l.topic}</span><span class="tag ${dc}">${l.difficulty}</span></div><div style="font-size:.72rem;color:var(--text-muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic">${l.subtopic}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0"><div style="display:flex;align-items:center;gap:3px;color:#4d44e3;font-weight:700;font-size:.78rem"><span class="ms" style="font-size:13px">schedule</span>${l.duration}</div><span style="font-size:.66rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em">${l.date}</span></div><span class="tag te" style="flex-shrink:0">Done</span></div>`}).join(''):`<div style="text-align:center;padding:40px 0;color:var(--text-muted);font-size:.83rem">No entries found.</div>`;
 }
 function lFiltSet(f){lFilt=f;rdLogs()}
 document.getElementById('log-search').addEventListener('input',e=>{lSrch=e.target.value.toLowerCase();rdLogs()});
@@ -811,7 +842,7 @@ function rdRevision(){
   if(revFilt==='due')fl=fl.filter(r=>!r.done&&r.nextDate===td);
   else if(revFilt==='overdue')fl=fl.filter(r=>!r.done&&r.nextDate<td);
   else if(revFilt==='mastered')fl=fl.filter(r=>r.reps>=5);
-  document.getElementById('rev-list').innerHTML=fl.length?fl.map(r=>{const s=sj(r.subjId);const ov2=r.nextDate<td&&!r.done;const istoday=r.nextDate===td&&!r.done;const cls=r.done?'revcard done-r':ov2?'revcard overdue':istoday?'revcard today':'revcard';const daysUntil=Math.ceil((new Date(r.nextDate)-new Date(td))/(86400000));const dLabel=r.done?'Done':ov2?`${Math.abs(daysUntil)}d overdue`:istoday?'Due today':`In ${daysUntil}d`;const dColor=r.done?'#466747':ov2?'#9e3f4e':istoday?'#c07a1a':'#566166';return`<div class="${cls}"><div style="width:36px;height:36px;border-radius:9px;background:${s.light};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:${s.color};font-size:16px">${s.icon}</span></div><div style="flex:1;min-width:0"><div style="font-size:.83rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.topic}</div><div style="font-size:.7rem;color:#566166;margin-top:2px">${s.name} · Rep #${r.reps}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0"><span style="font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:${dColor}">${dLabel}</span>${!r.done?`<div style="display:flex;gap:5px"><button onclick="rateRevision(${r.id},'hard')" style="padding:4px 8px;border-radius:7px;border:none;cursor:pointer;font-size:.65rem;font-weight:700;background:#ffe4e8;color:#9e3f4e;font-family:'Inter'">Hard</button><button onclick="rateRevision(${r.id},'ok')" style="padding:4px 8px;border-radius:7px;border:none;cursor:pointer;font-size:.65rem;font-weight:700;background:#e0edff;color:#3b5fa0;font-family:'Inter'">OK</button><button onclick="rateRevision(${r.id},'easy')" style="padding:4px 8px;border-radius:7px;border:none;cursor:pointer;font-size:.65rem;font-weight:700;background:#d7fed4;color:#466747;font-family:'Inter'">Easy</button></div>`:''}</div><button onclick="openEditRevision(${r.id})" style="width:28px;height:28px;border-radius:50%;background:#f0f4f7;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="font-size:14px;color:#566166">edit</span></button></div>`}).join(''):`<div style="text-align:center;padding:40px 0;color:#566166;font-size:.83rem"><span class="ms" style="font-size:36px;color:#e8eff3;display:block;margin-bottom:8px">replay</span>No topics in this filter.</div>`;
+  document.getElementById('rev-list').innerHTML=fl.length?fl.map(r=>{const s=sj(r.subjId);const ov2=r.nextDate<td&&!r.done;const istoday=r.nextDate===td&&!r.done;const cls=r.done?'revcard done-r':ov2?'revcard overdue':istoday?'revcard today':'revcard';const daysUntil=Math.ceil((new Date(r.nextDate)-new Date(td))/(86400000));const dLabel=r.done?'Done':ov2?`${Math.abs(daysUntil)}d overdue`:istoday?'Due today':`In ${daysUntil}d`;const dColor=r.done?'#466747':ov2?'#9e3f4e':istoday?'#c07a1a':'var(--text-muted)';return`<div class="${cls}"><div style="width:36px;height:36px;border-radius:9px;background:${s.light};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:${s.color};font-size:16px">${s.icon}</span></div><div style="flex:1;min-width:0"><div style="font-size:.83rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.topic}</div><div style="font-size:.7rem;color:var(--text-muted);margin-top:2px">${s.name} · Rep #${r.reps}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0"><span style="font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:${dColor}">${dLabel}</span>${!r.done?`<div style="display:flex;gap:5px"><button onclick="rateRevision(${r.id},'hard')" style="padding:4px 8px;border-radius:7px;border:none;cursor:pointer;font-size:.65rem;font-weight:700;background:#ffe4e8;color:#9e3f4e;font-family:'Inter'">Hard</button><button onclick="rateRevision(${r.id},'ok')" style="padding:4px 8px;border-radius:7px;border:none;cursor:pointer;font-size:.65rem;font-weight:700;background:#e0edff;color:#3b5fa0;font-family:'Inter'">OK</button><button onclick="rateRevision(${r.id},'easy')" style="padding:4px 8px;border-radius:7px;border:none;cursor:pointer;font-size:.65rem;font-weight:700;background:#d7fed4;color:#466747;font-family:'Inter'">Easy</button></div>`:''}</div><button onclick="openEditRevision(${r.id})" style="width:28px;height:28px;border-radius:50%;background:var(--card-m);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="font-size:14px;color:var(--text-muted)">edit</span></button></div>`}).join(''):`<div style="text-align:center;padding:40px 0;color:var(--text-muted);font-size:.83rem"><span class="ms" style="font-size:36px;color:var(--card-m);display:block;margin-bottom:8px">replay</span>No topics in this filter.</div>`;
 }
 function revFiltSet(f){revFilt=f;rdRevision()}
 function rateRevision(id,rating){
@@ -840,12 +871,13 @@ function rdTests(){
   const trend=tests.length>=2?tests[0].score-tests[1].score:0;
   document.getElementById('t-trend-label').innerHTML=trend>=0?`<span style="color:#466747">↑ +${trend}% vs last test</span>`:`<span style="color:#9e3f4e">↓ ${trend}% vs last test</span>`;
   const last8=tests.slice(0,8).reverse();const mx=Math.max(...last8.map(t=>t.score),1);
-  document.getElementById('t-chart').innerHTML=last8.map(t=>{const pct=Math.round(t.score/mx*100);const clr=t.score>=80?'#466747':t.score>=60?'#4d44e3':'#9e3f4e';return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:${clr};height:${pct}%;min-height:4px;transition:.2s" title="${t.name}: ${t.score}%"></div><span style="font-size:8px;font-weight:700;color:#566166;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%">#${t.id}</span></div>`}).join('');
-  document.getElementById('test-list').innerHTML=tests.map(t=>{const clr=t.score>=80?'#466747':t.score>=60?'#4d44e3':'#9e3f4e';const rPct=t.rank&&t.total?Math.round((1-t.rank/t.total)*100):null;return`<div class="testrow"><div style="position:relative;width:44px;height:44px;flex-shrink:0"><svg style="width:100%;height:100%;transform:rotate(-90deg)" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="transparent" stroke="#e8eff3" stroke-width="4"/><circle cx="22" cy="22" r="18" fill="transparent" stroke="${clr}" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="${Math.round(113*(1-t.score/100))}" stroke-linecap="round"/></svg><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;color:${clr}">${t.score}%</div></div><div style="flex:1;min-width:0"><div style="font-size:.84rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.name}</div><div style="font-size:.71rem;color:#566166;margin-top:2px">${t.date}${rPct!==null?' · Top '+rPct+'%':''}</div>${t.notes?`<div style="font-size:.71rem;color:#566166;margin-top:3px;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes}</div>`:''}</div><div style="font-size:1.1rem;font-weight:900;color:${clr};flex-shrink:0">${t.score}<span style="font-size:.7rem;color:#566166">%</span></div></div>`}).join('');
+  document.getElementById('t-chart').innerHTML=last8.map(t=>{const pct=Math.round(t.score/mx*100);const clr=t.score>=80?'#466747':t.score>=60?'#4d44e3':'#9e3f4e';return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;border-radius:4px 4px 0 0;background:${clr};height:${pct}%;min-height:4px;transition:.2s" title="${t.name}: ${t.score}%"></div><span style="font-size:8px;font-weight:700;color:var(--text-muted);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%">#${t.id}</span></div>`}).join('');
+  document.getElementById('test-list').innerHTML=tests.map(t=>{const clr=t.score>=80?'#466747':t.score>=60?'#4d44e3':'#9e3f4e';const rPct=t.rank&&t.total?Math.round((1-t.rank/t.total)*100):null;return`<div class="testrow"><div style="position:relative;width:44px;height:44px;flex-shrink:0"><svg style="width:100%;height:100%;transform:rotate(-90deg)" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="transparent" stroke="var(--card-m)" stroke-width="4"/><circle cx="22" cy="22" r="18" fill="transparent" stroke="${clr}" stroke-width="4" stroke-dasharray="113" stroke-dashoffset="${Math.round(113*(1-t.score/100))}" stroke-linecap="round"/></svg><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;color:${clr}">${t.score}%</div></div><div style="flex:1;min-width:0"><div style="font-size:.84rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.name}</div><div style="font-size:.71rem;color:var(--text-muted);margin-top:2px">${t.date}${rPct!==null?' · Top '+rPct+'%':''}</div>${t.notes?`<div style="font-size:.71rem;color:var(--text-muted);margin-top:3px;font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes}</div>`:''}</div><div style="font-size:1.1rem;font-weight:900;color:${clr};flex-shrink:0">${t.score}<span style="font-size:.7rem;color:var(--text-muted)">%</span></div><button onclick="deleteTest(${t.id})" style="background:none;border:none;cursor:pointer;margin-left:8px"><span class="ms" style="font-size:18px;color:#9e3f4e">delete</span></button></div>`}).join('');
 }
 function openAddTest(){const d=document.getElementById('t-date');d.value=today();document.getElementById('t-name').value='';document.getElementById('t-score').value='';document.getElementById('t-rank').value='';document.getElementById('t-total').value='';document.getElementById('t-notes').value='';document.getElementById('test-ov').classList.add('open')}
 function closeTestOv(){document.getElementById('test-ov').classList.remove('open')}
 function saveTest(){const name=document.getElementById('t-name').value.trim();const score=parseInt(document.getElementById('t-score').value);if(!name||isNaN(score)||score<0||score>100){showToast('⚠ Enter a valid name and score (0-100)');return}tests.unshift({id:idc.test++,name,score,date:document.getElementById('t-date').value||today(),rank:parseInt(document.getElementById('t-rank').value)||null,total:parseInt(document.getElementById('t-total').value)||null,notes:document.getElementById('t-notes').value.trim()});save();closeTestOv();rdTests();showToast('✓ Test logged!')}
+function deleteTest(id) { tests = tests.filter(t => t.id !== id); save(); rdTests(); showToast('Test deleted'); }
 
 // ═══════════════════ GOALS ═══════════════════
 let gFiltVal='all';
@@ -858,7 +890,7 @@ function rdGoals(){
   document.getElementById('g-total').textContent=tot;
   document.querySelectorAll('#goal-tabs .ftab').forEach(b=>b.classList.toggle('active',b.dataset.gf===gFiltVal));
   let fl=goals;if(gFiltVal!=='all')fl=goals.filter(g=>g.cat===gFiltVal);
-  document.getElementById('goal-list').innerHTML=fl.length?fl.map(g=>{const pct2=g.target?Math.min(100,Math.round(g.progress/g.target*100)):0;const catIcons={study:'schedule',tasks:'checklist',revision:'replay',exercise:'fitness_center',other:'star'};return`<div class="goalcard"><div style="width:34px;height:34px;border-radius:9px;background:${g.done?'#d7fed4':'#f0f4f7'};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms ${g.done?'msf':''}" style="color:${g.done?'#466747':'#566166'};font-size:17px">${catIcons[g.cat]||'star'}</span></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px"><span style="font-size:.83rem;font-weight:600;${g.done?'text-decoration:line-through;opacity:.5':''};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.text}</span><span style="font-size:.72rem;font-weight:700;color:${g.done?'#466747':'#4d44e3'};flex-shrink:0">${g.done?'Done':pct2+'%'}</span></div><div class="pt" style="height:5px"><div class="pf" style="height:100%;width:${pct2}%"></div></div><div style="font-size:.68rem;color:#566166;margin-top:3px">${g.progress} / ${g.target} ${g.cat==='study'?'hrs':g.cat==='exercise'?'min':'items'}</div></div><div style="display:flex;gap:5px;flex-shrink:0"><button onclick="incGoal(${g.id})" style="width:28px;height:28px;border-radius:50%;background:#f0f4f7;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-family:'Inter';font-weight:700;color:#566166">+</button><button onclick="toggleGoal(${g.id})" style="width:28px;height:28px;border-radius:50%;background:${g.done?'#d7fed4':'#f0f4f7'};border:none;cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="ms ${g.done?'msf':''}" style="font-size:14px;color:${g.done?'#466747':'#566166'}">check</span></button></div></div>`}).join(''):`<div style="text-align:center;padding:36px 0;color:#566166;font-size:.83rem">No goals here. Add your first goal!</div>`;
+  document.getElementById('goal-list').innerHTML=fl.length?fl.map(g=>{const pct2=g.target?Math.min(100,Math.round(g.progress/g.target*100)):0;const catIcons={study:'schedule',tasks:'checklist',revision:'replay',exercise:'fitness_center',other:'star'};return`<div class="goalcard"><div style="width:34px;height:34px;border-radius:9px;background:${g.done?'#d7fed4':'var(--card-m)'};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms ${g.done?'msf':''}" style="color:${g.done?'#466747':'var(--text-muted)'};font-size:17px">${catIcons[g.cat]||'star'}</span></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px"><span style="font-size:.83rem;font-weight:600;${g.done?'text-decoration:line-through;opacity:.5':''};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.text}</span><span style="font-size:.72rem;font-weight:700;color:${g.done?'#466747':'#4d44e3'};flex-shrink:0">${g.done?'Done':pct2+'%'}</span></div><div class="pt" style="height:5px"><div class="pf" style="height:100%;width:${pct2}%"></div></div><div style="font-size:.68rem;color:var(--text-muted);margin-top:3px">${g.progress} / ${g.target} ${g.cat==='study'?'hrs':g.cat==='exercise'?'min':'items'}</div></div><div style="display:flex;gap:5px;flex-shrink:0"><button onclick="incGoal(${g.id})" style="width:28px;height:28px;border-radius:50%;background:var(--card-m);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-family:'Inter';font-weight:700;color:var(--text-muted)">+</button><button onclick="toggleGoal(${g.id})" style="width:28px;height:28px;border-radius:50%;background:${g.done?'#d7fed4':'var(--card-m)'};border:none;cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="ms ${g.done?'msf':''}" style="font-size:14px;color:${g.done?'#466747':'var(--text-muted)'}">check</span></button><button onclick="deleteGoal(${g.id})" style="width:28px;height:28px;border-radius:50%;background:#ffe4e8;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center"><span class="ms" style="font-size:14px;color:#9e3f4e">delete</span></button></div></div>`}).join(''):`<div style="text-align:center;padding:36px 0;color:var(--text-muted);font-size:.83rem">No goals here. Add your first goal!</div>`;
 }
 function gFilter(f){gFiltVal=f;rdGoals()}
 function toggleGoal(id){const g=goals.find(g=>g.id===id);if(g){g.done=!g.done;if(g.done)g.progress=g.target;save();rdGoals();if(cur==='dashboard')rdDash()}}
@@ -866,6 +898,7 @@ function incGoal(id){const g=goals.find(g=>g.id===id);if(g&&!g.done){g.progress=
 function openAddGoal(){document.getElementById('g-text').value='';document.getElementById('g-target').value='';document.getElementById('goal-ov').classList.add('open');setTimeout(()=>document.getElementById('g-text').focus(),80)}
 function closeGoalOv(){document.getElementById('goal-ov').classList.remove('open')}
 function saveGoal(){const text=document.getElementById('g-text').value.trim();const cat=document.getElementById('g-cat').value;const target=parseFloat(document.getElementById('g-target').value)||1;if(!text){document.getElementById('g-text').focus();return}goals.unshift({id:idc.goal++,text,cat,target,progress:0,done:false});save();closeGoalOv();rdGoals();if(cur==='dashboard')rdDash();showToast('✓ Goal added!')}
+function deleteGoal(id) { goals = goals.filter(g => g.id !== id); save(); rdGoals(); if(cur==='dashboard') rdDash(); showToast('Goal deleted'); }
 
 // ═══════════════════ NOTES ═══════════════════
 let nFilt='all',nSrch='',editNoteId=null;
@@ -877,7 +910,7 @@ function rdNotes(){
   document.getElementById('note-empty').style.display=fl.length?'none':'block';
   const typeColors={note:'#4d44e3',flash:'#c07a1a',formula:'#9e3f4e',tip:'#466747'};
   const typeLabels={note:'Note',flash:'Flashcard',formula:'Formula',tip:'Key Tip'};
-  document.getElementById('note-grid').innerHTML=fl.map(n=>{const s=sj(n.subjId);const tc=typeColors[n.type]||'#4d44e3';return`<div class="notecard" onclick="openEditNote(${n.id})" style="border-top-color:${tc}"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:6px"><div style="width:22px;height:22px;border-radius:6px;background:${s.light};display:flex;align-items:center;justify-content:center"><span class="ms" style="color:${s.color};font-size:12px">${s.icon}</span></div><span class="tag" style="background:${tc}15;color:${tc}">${typeLabels[n.type]||'Note'}</span></div><span style="font-size:.66rem;color:#a9b4b9">${n.date}</span></div><div style="font-size:.86rem;font-weight:700;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical">${n.title}</div><div style="font-size:.76rem;color:#566166;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;white-space:pre-line">${n.content}</div></div>`}).join('');
+  document.getElementById('note-grid').innerHTML=fl.map(n=>{const s=sj(n.subjId);const tc=typeColors[n.type]||'#4d44e3';return`<div class="notecard" onclick="openEditNote(${n.id})" style="border-top-color:${tc}"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><div style="display:flex;align-items:center;gap:6px"><div style="width:22px;height:22px;border-radius:6px;background:${s.light};display:flex;align-items:center;justify-content:center"><span class="ms" style="color:${s.color};font-size:12px">${s.icon}</span></div><span class="tag" style="background:${tc}15;color:${tc}">${typeLabels[n.type]||'Note'}</span></div><span style="font-size:.66rem;color:#a9b4b9">${n.date}</span></div><div style="font-size:.86rem;font-weight:700;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical">${n.title}</div><div style="font-size:.76rem;color:var(--text-muted);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;white-space:pre-line">${n.content}</div></div>`}).join('');
 }
 function nFiltSet(f){nFilt=f;rdNotes()}
 document.getElementById('note-search').addEventListener('input',e=>{nSrch=e.target.value.toLowerCase();rdNotes()});
@@ -890,11 +923,11 @@ function deleteNote(){if(!editNoteId||!confirm('Delete this note?'))return;notes
 // ═══════════════════ ANALYTICS ═══════════════════
 function rdAnalytics(){
   document.getElementById('an-tests').textContent=tests.length;
-  document.getElementById('an-streak').innerHTML=(settings.streak||0)+'<span style="font-size:.9rem;color:#566166;font-weight:600">d</span>';
+  document.getElementById('an-streak').innerHTML=(settings.streak||0)+'<span style="font-size:.9rem;color:var(--text-muted);font-weight:600">d</span>';
   const total=logs.length||1,cnt={};subjects.forEach(s=>cnt[s.id]=0);logs.forEach(l=>{if(cnt[l.subjId]!==undefined)cnt[l.subjId]++});
   document.getElementById('an-subjbars').innerHTML=subjects.map(s=>{const pct=Math.round(cnt[s.id]/total*100);return`<div><div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:3px"><span style="font-weight:600">${s.name}</span><span style="font-weight:700;color:${s.color}">${pct}%</span></div><div class="pt" style="height:6px"><div style="height:100%;border-radius:999px;background:${s.color};width:${pct}%;transition:width .5s"></div></div></div>`}).join('');
   const hm=document.getElementById('heatmap');hm.innerHTML='';
-  const dl=document.createElement('div');dl.style.cssText='display:flex;flex-direction:column;gap:3px;margin-right:3px';['','M','','W','','F',''].forEach(d=>{const e=document.createElement('div');e.style.cssText='height:11px;font-size:7px;font-weight:700;color:#566166;line-height:11px';e.textContent=d;dl.appendChild(e)});hm.appendChild(dl);
+  const dl=document.createElement('div');dl.style.cssText='display:flex;flex-direction:column;gap:3px;margin-right:3px';['','M','','W','','F',''].forEach(d=>{const e=document.createElement('div');e.style.cssText='height:11px;font-size:7px;font-weight:700;color:var(--text-muted);line-height:11px';e.textContent=d;dl.appendChild(e)});hm.appendChild(dl);
   for(let w=0;w<15;w++){const c=document.createElement('div');c.style.cssText='display:flex;flex-direction:column;gap:3px';for(let d=0;d<7;d++){const v=Math.random();const lv=v<.28?0:v<.5?1:v<.7?2:v<.88?3:4;const cell=document.createElement('div');cell.className='hcell h'+lv;cell.title=['No activity','Light','Moderate','Good','Excellent'][lv];c.appendChild(cell)}hm.appendChild(c)}
 }
 
@@ -905,7 +938,7 @@ function rdSettings(){
   document.getElementById('s-exam').value=settings.exam||'';
   document.getElementById('s-focus').value=settings.focusDur||25;
   document.getElementById('s-break').value=settings.breakDur||5;
-  document.getElementById('subj-list').innerHTML=subjects.map(s=>`<div style="background:#fff;border-radius:.9rem;padding:.9rem 1rem;display:flex;align-items:center;gap:.8rem"><div style="width:34px;height:34px;border-radius:9px;background:${s.light};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:${s.color};font-size:17px">${s.icon}</span></div><div style="flex:1;min-width:0"><div style="font-size:.86rem;font-weight:700">${s.name}</div><div style="font-size:.7rem;color:#566166;margin-top:2px">${logs.filter(l=>l.subjId===s.id).length} logs · ${tasks.filter(t=>t.subjId===s.id).length} tasks</div></div><button onclick="openEditSubj('${s.id}')" class="btn bg bsm" style="padding:5px 10px;flex-shrink:0"><span class="ms" style="font-size:14px">edit</span></button></div>`).join('');
+  document.getElementById('subj-list').innerHTML=subjects.map(s=>`<div style="background:var(--card);border-radius:.9rem;padding:.9rem 1rem;display:flex;align-items:center;gap:.8rem"><div style="width:34px;height:34px;border-radius:9px;background:${s.light};display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:${s.color};font-size:17px">${s.icon}</span></div><div style="flex:1;min-width:0"><div style="font-size:.86rem;font-weight:700">${s.name}</div><div style="font-size:.7rem;color:var(--text-muted);margin-top:2px">${logs.filter(l=>l.subjId===s.id).length} logs · ${tasks.filter(t=>t.subjId===s.id).length} tasks</div></div><button onclick="openEditSubj('${s.id}')" class="btn bg bsm" style="padding:5px 10px;flex-shrink:0"><span class="ms" style="font-size:14px">edit</span></button></div>`).join('');
 }
 function saveProfile(){settings.name=document.getElementById('s-name').value.trim()||settings.name;settings.exam=document.getElementById('s-exam').value.trim();save();rdSidebar();showToast('✓ Profile saved')}
 function saveSetting(k,v){settings[k]=isNaN(v)?v:+v;save()}
@@ -917,7 +950,7 @@ function openEditSubj(id){editSjId=id;const s=subjects.find(s=>s.id===id);if(!s)
 function closeSubjOv(){document.getElementById('subj-ov').classList.remove('open')}
 function rdSwatches(){document.getElementById('sj-colors').innerHTML=PAL.map(p=>`<div class="sw ${p.c===selColor.c?'on':''}" style="background:${p.c}" onclick="pickColor(this,'${p.c}','${p.l}')"></div>`).join('')}
 function pickColor(el,c,l){selColor={c,l};document.querySelectorAll('.sw').forEach(s=>s.classList.remove('on'));el.classList.add('on')}
-function rdIconPicker(){document.getElementById('sj-icons').innerHTML=ICONS.map(ic=>`<button onclick="pickIcon(this,'${ic}')" style="width:34px;height:34px;border-radius:9px;border:2px solid ${ic===selIcon?'#4d44e3':'transparent'};background:${ic===selIcon?'#ede9ff':'#f0f4f7'};cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s"><span class="ms" style="font-size:17px;color:${ic===selIcon?'#4d44e3':'#566166'}">${ic}</span></button>`).join('')}
+function rdIconPicker(){document.getElementById('sj-icons').innerHTML=ICONS.map(ic=>`<button onclick="pickIcon(this,'${ic}')" style="width:34px;height:34px;border-radius:9px;border:2px solid ${ic===selIcon?'#4d44e3':'transparent'};background:${ic===selIcon?'#ede9ff':'var(--card-m)'};cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s"><span class="ms" style="font-size:17px;color:${ic===selIcon?'#4d44e3':'var(--text-muted)'}">${ic}</span></button>`).join('')}
 function pickIcon(el,ic){selIcon=ic;rdIconPicker()}
 function saveSubj(){const name=document.getElementById('sj-name').value.trim();if(!name){document.getElementById('sj-name').focus();return}if(editSjId){const s=subjects.find(s=>s.id===editSjId);if(s){s.name=name;s.color=selColor.c;s.light=selColor.l;s.icon=selIcon}}else{subjects.push({id:'s'+idc.subj++,name,color:selColor.c,light:selColor.l,icon:selIcon})}save();closeSubjOv();rdSidebar();rdSettings();refreshSelects();showToast(editSjId?'✓ Subject updated':'✓ Subject added')}
 function deleteSubj(){if(!editSjId||!confirm('Delete subject?'))return;subjects=subjects.filter(s=>s.id!==editSjId);save();closeSubjOv();rdSidebar();rdSettings();refreshSelects();showToast('Subject deleted')}
@@ -926,8 +959,8 @@ function deleteSubj(){if(!editSjId||!confirm('Delete subject?'))return;subjects=
 let qaCurTab='task',selDiff='Medium';
 function openQA(tab='task'){document.getElementById('qa-ov').classList.add('open');qaTab(tab);refreshSelects();setTimeout(()=>document.getElementById(tab==='task'?'qa-tname':'qa-ltopic').focus(),80)}
 function closeQA(){document.getElementById('qa-ov').classList.remove('open')}
-function qaTab(t){qaCurTab=t;document.getElementById('qa-task-f').style.display=t==='task'?'block':'none';document.getElementById('qa-log-f').style.display=t==='log'?'block':'none';document.getElementById('qa-t-task').style.cssText=`flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.76rem;font-weight:700;cursor:pointer;background:${t==='task'?'#4d44e3':'transparent'};color:${t==='task'?'#fff':'#566166'};transition:all .14s`;document.getElementById('qa-t-log').style.cssText=`flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.76rem;font-weight:700;cursor:pointer;background:${t==='log'?'#4d44e3':'transparent'};color:${t==='log'?'#fff':'#566166'};transition:all .14s`}
-function setDiff(btn,val){selDiff=val;const m={Easy:['#d7fed4','#466747'],Medium:['#4d44e3','#fff'],Hard:['#ffe4e8','#9e3f4e']};document.querySelectorAll('.dpb').forEach(b=>{b.style.background='#f0f4f7';b.style.color='#566166'});btn.style.background=m[val][0];btn.style.color=m[val][1]}
+function qaTab(t){qaCurTab=t;document.getElementById('qa-task-f').style.display=t==='task'?'block':'none';document.getElementById('qa-log-f').style.display=t==='log'?'block':'none';document.getElementById('qa-t-task').style.cssText=`flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.76rem;font-weight:700;cursor:pointer;background:${t==='task'?'#4d44e3':'transparent'};color:${t==='task'?'#fff':'var(--text-muted)'};transition:all .14s`;document.getElementById('qa-t-log').style.cssText=`flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.76rem;font-weight:700;cursor:pointer;background:${t==='log'?'#4d44e3':'transparent'};color:${t==='log'?'#fff':'var(--text-muted)'};transition:all .14s`}
+function setDiff(btn,val){selDiff=val;const m={Easy:['#d7fed4','#466747'],Medium:['#4d44e3','#fff'],Hard:['#ffe4e8','#9e3f4e']};document.querySelectorAll('.dpb').forEach(b=>{b.style.background='var(--card-m)';b.style.color='var(--text-muted)'});btn.style.background=m[val][0];btn.style.color=m[val][1]}
 function submitQA(){if(qaCurTab==='task'){const name=document.getElementById('qa-tname').value.trim();const subj=document.getElementById('qa-tsubj').value;if(!name){document.getElementById('qa-tname').focus();return}tasks.unshift({id:idc.task++,text:name,subjId:subj,done:false});document.getElementById('qa-tname').value='';showToast('✓ Task added')}else{const topic=document.getElementById('qa-ltopic').value.trim();const subj=document.getElementById('qa-lsubj').value;const dur=document.getElementById('qa-ldur').value;if(!topic){document.getElementById('qa-ltopic').focus();return}logs.unshift({id:idc.log++,topic:sj(subj).name,subtopic:topic,subjId:subj,duration:dur,difficulty:selDiff,date:'Today'});document.getElementById('qa-ltopic').value='';showToast('✓ Log added')}save();closeQA();const fns={dashboard:rdDash,tasks:rdTasks,studylog:rdLogs};if(fns[cur])fns[cur]()}
 
 // ═══════════════════ FOCUS TIMER ═══════════════════
@@ -937,12 +970,12 @@ function fsecs(){return(settings.focusDur||25)*60}
 function bsecs(){return(settings.breakDur||5)*60}
 function openFocus(){document.getElementById('focus-ov').classList.add('open');if(!tRunning){tTotal=tMode==='focus'?fsecs():bsecs();tRemain=tRemain||tTotal}rdSDots();rdTUI()}
 function closeFocus(){document.getElementById('focus-ov').classList.remove('open')}
-function setTMode(m){tMode=m;tRunning&&(clearInterval(tInterval),tRunning=false);tTotal=m==='focus'?fsecs():bsecs();tRemain=tTotal;rdTUI();document.getElementById('t-btn').textContent=m==='focus'?'Start Focus':'Start Break';const f=m==='focus';document.getElementById('f-focus-btn').style.cssText=`flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:${f?'#4d44e3':'transparent'};color:${f?'#fff':'#566166'};transition:all .14s`;document.getElementById('f-break-btn').style.cssText=`flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:${!f?'#466747':'transparent'};color:${!f?'#fff':'#566166'};transition:all .14s`;document.getElementById('t-ring').style.stroke=m==='focus'?'#4d44e3':'#466747'}
+function setTMode(m){tMode=m;tRunning&&(clearInterval(tInterval),tRunning=false);tTotal=m==='focus'?fsecs():bsecs();tRemain=tTotal;rdTUI();document.getElementById('t-btn').textContent=m==='focus'?'Start Focus':'Start Break';const f=m==='focus';document.getElementById('f-focus-btn').style.cssText=`flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:${f?'#4d44e3':'transparent'};color:${f?'#fff':'var(--text-muted)'};transition:all .14s`;document.getElementById('f-break-btn').style.cssText=`flex:1;padding:6px;border-radius:999px;border:none;font-family:'Inter';font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;background:${!f?'#466747':'transparent'};color:${!f?'#fff':'var(--text-muted)'};transition:all .14s`;document.getElementById('t-ring').style.stroke=m==='focus'?'#4d44e3':'#466747'}
 function fmt(s){return`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
 function rdTUI(){document.getElementById('t-disp').textContent=fmt(tRemain);document.getElementById('t-ring').style.strokeDashoffset=RC*((tTotal-tRemain)/Math.max(tTotal,1))}
 function toggleTimer(){if(tRunning){clearInterval(tInterval);tRunning=false;document.getElementById('t-btn').innerHTML='Resume'}else{if(!tTotal){tTotal=tMode==='focus'?fsecs():bsecs();tRemain=tTotal}tRunning=true;document.getElementById('t-btn').innerHTML='<span class="ms" style="font-size:15px;vertical-align:middle">pause</span> Pause';document.getElementById('t-ring').style.stroke=tMode==='focus'?'#4d44e3':'#466747';tInterval=setInterval(()=>{if(tRemain<=0){clearInterval(tInterval);tRunning=false;document.getElementById('t-btn').textContent=tMode==='focus'?'Start Focus':'Start Break';if(tMode==='focus'){sDone=Math.min(sDone+1,STARGET);rdSDots()}showToast(tMode==='focus'?'🎉 Session done! Take a break.':'⚡ Break over — back to work!');return}tRemain--;rdTUI()},1000)}}
 function resetTimer(){clearInterval(tInterval);tRunning=false;tTotal=tMode==='focus'?fsecs():bsecs();tRemain=tTotal;rdTUI();document.getElementById('t-btn').textContent=tMode==='focus'?'Start Focus':'Start Break'}
-function rdSDots(){document.getElementById('s-done').textContent=sDone;document.getElementById('s-target').textContent='Target: '+STARGET;document.getElementById('s-dots').innerHTML=Array.from({length:STARGET},(_,i)=>`<div style="flex:1;height:5px;border-radius:999px;background:${i<sDone?'#466747':'#e8eff3'}"></div>`).join('')}
+function rdSDots(){document.getElementById('s-done').textContent=sDone;document.getElementById('s-target').textContent='Target: '+STARGET;document.getElementById('s-dots').innerHTML=Array.from({length:STARGET},(_,i)=>`<div style="flex:1;height:5px;border-radius:999px;background:${i<sDone?'#466747':'var(--card-m)'}"></div>`).join('')}
 
 // ═══════════════════ COMMAND PALETTE ═══════════════════
 const CMDS=[
@@ -967,17 +1000,42 @@ const CMDS=[
 let cSel=0;
 function openCmd(){document.getElementById('cmd-ov').classList.add('open');document.getElementById('cmd-inp').value='';filterCmd('');setTimeout(()=>document.getElementById('cmd-inp').focus(),50)}
 function closeCmd(){document.getElementById('cmd-ov').classList.remove('open')}
-function filterCmd(q){const fl=CMDS.filter(c=>c.label.toLowerCase().includes(q.toLowerCase()));cSel=0;document.getElementById('cmd-res').innerHTML=fl.map((c,i)=>`<div class="ci ${i===0?'sel':''}" onclick="runCmd(${CMDS.indexOf(c)})"><div style="width:30px;height:30px;border-radius:9px;background:#f0f4f7;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:#566166;font-size:16px">${c.icon}</span></div><span style="flex:1;font-size:.86rem;font-weight:600">${c.label}</span><span style="font-size:.7rem;color:#566166;font-weight:600">${c.hint}</span></div>`).join('')||'<div style="padding:24px;text-align:center;color:#566166;font-size:.83rem">No results</div>'}
+function filterCmd(q){const fl=CMDS.filter(c=>c.label.toLowerCase().includes(q.toLowerCase()));cSel=0;document.getElementById('cmd-res').innerHTML=fl.map((c,i)=>`<div class="ci ${i===0?'sel':''}" onclick="runCmd(${CMDS.indexOf(c)})"><div style="width:30px;height:30px;border-radius:9px;background:var(--card-m);display:flex;align-items:center;justify-content:center;flex-shrink:0"><span class="ms" style="color:var(--text-muted);font-size:16px">${c.icon}</span></div><span style="flex:1;font-size:.86rem;font-weight:600">${c.label}</span><span style="font-size:.7rem;color:var(--text-muted);font-weight:600">${c.hint}</span></div>`).join('')||'<div style="padding:24px;text-align:center;color:var(--text-muted);font-size:.83rem">No results</div>'}
 function runCmd(i){closeCmd();CMDS[i].fn()}
 function cmdKey(e){const items=document.querySelectorAll('.ci');if(e.key==='ArrowDown'){cSel=Math.min(cSel+1,items.length-1);items.forEach((el,i)=>el.classList.toggle('sel',i===cSel));e.preventDefault()}if(e.key==='ArrowUp'){cSel=Math.max(cSel-1,0);items.forEach((el,i)=>el.classList.toggle('sel',i===cSel));e.preventDefault()}if(e.key==='Enter'&&items[cSel])items[cSel].click();if(e.key==='Escape')closeCmd()}
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();openCmd()}if(e.key==='Escape'){closeCmd();closeQA();closeFocus();closeRevOv();closeTestOv();closeGoalOv();closeNoteOv();closeSubjOv()}});
 
-// ═══════════════════ UTILS ═══════════════════
+// ═══════════════════ THEME / ONBOARDING / UTILS ═══════════════════
 function populateSelect(id,selected){const el=document.getElementById(id);if(!el)return;el.innerHTML=subjects.map(s=>`<option value="${s.id}" ${s.id===selected?'selected':''}>${s.name}</option>`).join('')}
 function refreshSelects(){['qa-tsubj','qa-lsubj','rev-subj','n-subj'].forEach(id=>populateSelect(id))}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 
+function toggleTheme() {
+  settings.darkMode = !settings.darkMode;
+  save();
+  applyTheme();
+}
+function applyTheme() {
+  if (settings.darkMode) document.body.classList.add('dark-mode');
+  else document.body.classList.remove('dark-mode');
+}
+
+function saveOnboard() {
+  const n = document.getElementById('ob-name').value.trim();
+  const e = document.getElementById('ob-exam').value.trim();
+  if(!n) return document.getElementById('ob-name').focus();
+  settings.name = n; settings.exam = e;
+  save(); rdSidebar(); rdSettings(); rdDash();
+  document.getElementById('onboard-ov').classList.remove('open');
+  showToast('Profile configured!');
+}
+
 // ═══════════════════ INIT ═══════════════════
+applyTheme();
+if (!settings.name || settings.name === 'Alex Kumar') {
+  document.getElementById('onboard-ov').classList.add('open');
+}
+
 tTotal=fsecs();tRemain=tTotal;
 rdSidebar();refreshSelects();
 go('dashboard');
