@@ -44,15 +44,21 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 @media(max-width:767px){#topbar{padding:0 16px;height:56px}}
 
 /* ─ Screen ─ */
+/* ─ Screen ─ */
 .screen{display:none;animation:sIn .2s cubic-bezier(.16,1,.3,1)}
 .screen.active{display:block}
 @keyframes sIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-.page{padding:24px 28px 120px;max-width:960px;margin:0 auto;width:100%}
+
+/* Add these new layout helper classes */
+.d-grid { display: grid; gap: 12px; margin-bottom: 12px; }
+.d-grid-2 { grid-template-columns: 1fr 2fr; }
+.d-grid-1 { grid-template-columns: 1fr 1fr; }
+
+/* Enforce vertical stacking on mobile */
 @media(max-width:767px){
   .page{padding:16px 16px 110px; max-width: 100vw; overflow-x: hidden;}
-  .row4 { grid-template-columns: 1fr !important; }
-  /* Forces elements trying to span multiple columns to stack on mobile */
-  div[style*="grid-column:span 2"], div[style*="grid-column: span 2"] { grid-column: span 1 !important; }
+  .row4, .row2 { grid-template-columns: 1fr !important; }
+  .d-grid-2, .d-grid-1 { grid-template-columns: 1fr !important; }
   #main > div.screen.active { display: flex; flex-direction: column; gap: 12px; }
   #d-logs > div { width: 100%; }
   #page-title { display: none; }
@@ -241,12 +247,14 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:var(--card-m);
       </div>
       <h2 id="page-title" style="font-size:.98rem;font-weight:700;color:var(--text)"></h2>
     </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <button onclick="go('settings')" id="mob-settings" style="display:flex;width:36px;height:36px;border-radius:10px;background:var(--card-m);border:none;cursor:pointer;align-items:center;justify-content:center; margin-right:4px;"><span class="ms" style="font-size:18px;color:var(--text-muted)">settings</span></button>
-      <button onclick="openQA()" class="btn bp bsm"><span class="ms" style="font-size:15px">add</span><span id="add-label">Quick Add</span></button>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="toggleTheme()" style="display:flex;width:42px;height:42px;border-radius:10px;background:var(--card-m);border:none;cursor:pointer;align-items:center;justify-content:center" title="Toggle Dark Mode"><span class="ms" style="font-size:22px;color:var(--text-muted)">dark_mode</span></button>
+      <button onclick="go('settings')" style="display:flex;width:42px;height:42px;border-radius:10px;background:var(--card-m);border:none;cursor:pointer;align-items:center;justify-content:center" title="Settings"><span class="ms" style="font-size:22px;color:var(--text-muted)">settings</span></button>
+      <button onclick="openQA()" class="btn bp" style="padding:10px 20px;font-size:.9rem"><span class="ms" style="font-size:20px">add</span><span id="add-label">Quick Add</span></button>
     </div>
   </header>
 
+  <!-- ─── DASHBOARD ─── -->
   <!-- ─── DASHBOARD ─── -->
   <div id="screen-dashboard" class="screen active page">
     <div style="margin-bottom:22px">
@@ -254,29 +262,33 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:var(--card-m);
       <h1 id="d-greet" style="font-size:2rem;font-weight:900;letter-spacing:-.03em;line-height:1.2;margin-bottom:4px"></h1>
       <p id="d-sub" style="color:var(--text-muted);font-size:.86rem"></p>
     </div>
+    
+    <div id="d-alert"></div>
+
     <div class="row4" style="margin-bottom:12px">
       <div class="card" style="grid-column:span 2;position:relative;overflow:hidden;padding:1.6rem">
         <div style="position:relative;z-index:1">
           <div class="slabel" style="margin-bottom:8px">Productivity Score</div>
           <div style="display:flex;align-items:baseline;gap:5px;margin-bottom:14px">
-            <span id="d-score" style="font-size:3rem;font-weight:900;line-height:1">85</span>
+            <span id="d-score" style="font-size:3rem;font-weight:900;line-height:1">0</span>
             <span style="font-size:1.1rem;color:var(--text-muted);font-weight:600">/100</span>
           </div>
-          <div class="pt" style="height:7px;margin-bottom:9px"><div class="pf" id="d-score-bar" style="height:100%;width:85%"></div></div>
+          <div class="pt" style="height:7px;margin-bottom:9px"><div class="pf" id="d-score-bar" style="height:100%;width:0%"></div></div>
           <p style="font-size:.78rem;color:var(--text-muted)">Daily target exceeded by <strong style="color:#4d44e3">+15%</strong></p>
         </div>
         <div style="position:absolute;right:-14px;bottom:-14px;opacity:.04"><span class="ms msf" style="font-size:150px">query_stats</span></div>
       </div>
       <div class="cardm" style="display:flex;flex-direction:column;justify-content:space-between;padding:1.1rem">
         <span class="ms" style="color:#4d44e3;font-size:19px">schedule</span>
-        <div><div id="d-hours" style="font-size:1.8rem;font-weight:900;line-height:1">5.5<span style="font-size:.9rem;color:var(--text-muted);font-weight:600">h</span></div><div style="font-size:.7rem;color:var(--text-muted);font-weight:600;margin-top:2px">Study hours</div></div>
+        <div><div id="d-hours" style="font-size:1.8rem;font-weight:900;line-height:1">0<span style="font-size:.9rem;color:var(--text-muted);font-weight:600">h</span></div><div style="font-size:.7rem;color:var(--text-muted);font-weight:600;margin-top:2px">Study hours</div></div>
       </div>
       <div class="cardm" style="display:flex;flex-direction:column;justify-content:space-between;padding:1.1rem">
         <span class="ms" style="color:#466747;font-size:19px">shutter_speed</span>
-        <div><div id="d-sess" style="font-size:1.8rem;font-weight:900;line-height:1">4</div><div style="font-size:.7rem;color:var(--text-muted);font-weight:600;margin-top:2px">Focus sessions</div></div>
+        <div><div id="d-sess" style="font-size:1.8rem;font-weight:900;line-height:1">0</div><div style="font-size:.7rem;color:var(--text-muted);font-weight:600;margin-top:2px">Focus sessions</div></div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:12px;margin-bottom:12px">
+    
+    <div class="d-grid d-grid-2">
       <div class="card" style="padding:1.1rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <div class="slabel">Tasks</div>
@@ -300,7 +312,8 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:var(--card-m);
         </div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    
+    <div class="d-grid d-grid-1">
       <div class="card" style="padding:1.1rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <div class="slabel">Due for Revision</div>
@@ -317,7 +330,6 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:var(--card-m);
       </div>
     </div>
   </div>
-
   <!-- ─── STUDY LOG ─── -->
   <div id="screen-studylog" class="screen page">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
@@ -781,8 +793,18 @@ function rdDash(){
   const now=new Date(),days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   document.getElementById('d-date').textContent=`${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
   const h=now.getHours(),greet=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
-  const fn=(settings.name||'Alex').split(' ')[0];
+  const fn=(settings.name||'change name').split(' ')[0];
   document.getElementById('d-greet').innerHTML=`${greet}, <span style="color:#4d44e3">${fn}</span> 👋`;
+
+  // Show prompt if no subjects exist
+  document.getElementById('d-alert').innerHTML = subjects.length === 0 
+    ? `<div style="background:var(--card-m);border:2px dashed #4d44e3;border-radius:1rem;padding:1.5rem;text-align:center;margin-bottom:16px;">
+        <span class="ms" style="font-size:36px;color:#4d44e3;margin-bottom:8px">category</span>
+        <h3 style="font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:4px">Add Your First Subject</h3>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:12px">You need to configure at least one subject before you can track tasks or study logs.</p>
+        <button onclick="go('settings')" class="btn bp" style="font-size:.9rem;padding:10px 20px;"><span class="ms" style="font-size:18px">settings</span> Go to Settings</button>
+       </div>` 
+    : '';
 
   // Calculate dynamic productivity score based on tasks
   const totTasks = tasks.length;
