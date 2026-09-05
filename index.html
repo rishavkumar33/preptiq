@@ -51,6 +51,8 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 @media(max-width:767px){
   .page{padding:16px 16px 110px; max-width: 100vw; overflow-x: hidden;}
   .row4 { grid-template-columns: 1fr !important; }
+  /* Forces elements trying to span multiple columns to stack on mobile */
+  div[style*="grid-column:span 2"], div[style*="grid-column: span 2"] { grid-column: span 1 !important; }
   #main > div.screen.active { display: flex; flex-direction: column; gap: 12px; }
   #d-logs > div { width: 100%; }
   #page-title { display: none; }
@@ -477,7 +479,7 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:var(--card-m);
   </div>
 
   <!-- ─── SETTINGS ─── -->
-  <div id="screen-settings" class="screen page" style="max-width:640px">
+  <div id="screen-settings" class="screen page" >
     <div style="margin-bottom:22px"><div class="slabel" style="margin-bottom:3px">Preferences</div><h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Settings</h2></div>
     <div class="card" style="margin-bottom:12px">
       <div class="slabel" style="margin-bottom:12px">Profile</div>
@@ -781,6 +783,17 @@ function rdDash(){
   const h=now.getHours(),greet=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
   const fn=(settings.name||'Alex').split(' ')[0];
   document.getElementById('d-greet').innerHTML=`${greet}, <span style="color:#4d44e3">${fn}</span> 👋`;
+
+  // Calculate dynamic productivity score based on tasks
+  const totTasks = tasks.length;
+  const scorePct = totTasks ? Math.round((tasks.filter(t=>t.done).length / totTasks) * 100) : 0;
+  
+  // Override HTML presets with dynamic 0 values or calculations
+  document.getElementById('d-score').textContent = scorePct;
+  document.getElementById('d-score-bar').style.width = scorePct + '%';
+  document.getElementById('d-hours').innerHTML = `0<span style="font-size:.9rem;color:var(--text-muted);font-weight:600">h</span>`;
+  document.getElementById('d-sess').textContent = sDone;
+
   const dc=tasks.filter(t=>t.done).length;
   document.getElementById('d-taskcount').textContent=dc+'/'+tasks.length;
   document.getElementById('d-tasks').innerHTML=tasks.slice(0,4).map(t=>{const s=sj(t.subjId);return`<div style="display:flex;align-items:center;gap:7px;padding:3px 0;cursor:pointer" onclick="go('tasks')"><div style="width:17px;height:17px;border-radius:50%;flex-shrink:0;${t.done?'background:'+s.color+';display:flex;align-items:center;justify-content:center':'border:2px solid #c5ced3'}"> ${t.done?'<span class="ms msf" style="font-size:9px;color:#fff">check</span>':''}</div><span style="font-size:.76rem;font-weight:500;${t.done?'text-decoration:line-through;color:var(--text-muted)':'color:var(--text)'};flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.text}</span></div>`}).join('');
@@ -964,7 +977,7 @@ function setDiff(btn,val){selDiff=val;const m={Easy:['#d7fed4','#466747'],Medium
 function submitQA(){if(qaCurTab==='task'){const name=document.getElementById('qa-tname').value.trim();const subj=document.getElementById('qa-tsubj').value;if(!name){document.getElementById('qa-tname').focus();return}tasks.unshift({id:idc.task++,text:name,subjId:subj,done:false});document.getElementById('qa-tname').value='';showToast('✓ Task added')}else{const topic=document.getElementById('qa-ltopic').value.trim();const subj=document.getElementById('qa-lsubj').value;const dur=document.getElementById('qa-ldur').value;if(!topic){document.getElementById('qa-ltopic').focus();return}logs.unshift({id:idc.log++,topic:sj(subj).name,subtopic:topic,subjId:subj,duration:dur,difficulty:selDiff,date:'Today'});document.getElementById('qa-ltopic').value='';showToast('✓ Log added')}save();closeQA();const fns={dashboard:rdDash,tasks:rdTasks,studylog:rdLogs};if(fns[cur])fns[cur]()}
 
 // ═══════════════════ FOCUS TIMER ═══════════════════
-let tMode='focus',tRunning=false,tInterval=null,tRemain=0,tTotal=0,sDone=4,STARGET=8;
+let tMode='focus',tRunning=false,tInterval=null,tRemain=0,tTotal=0,sDone=0,STARGET=8;
 const RC=553;
 function fsecs(){return(settings.focusDur||25)*60}
 function bsecs(){return(settings.breakDur||5)*60}
@@ -1032,7 +1045,7 @@ function saveOnboard() {
 
 // ═══════════════════ INIT ═══════════════════
 applyTheme();
-if (!settings.name || settings.name === 'Alex Kumar') {
+if (!settings.name || settings.name === 'change name') {
   document.getElementById('onboard-ov').classList.add('open');
 }
 
