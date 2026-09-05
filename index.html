@@ -490,61 +490,68 @@ kbd{font-size:.63rem;padding:2px 6px;border-radius:5px;background:var(--card-m);
     </div>
   </div>
 
-  <!-- ─── SETTINGS ─── -->
-  <!-- ─── SETTINGS ─── -->
+
+ <!-- ─── SETTINGS ─── -->
   <div id="screen-settings" class="screen page">
     <div style="margin-bottom:22px">
       <div class="slabel" style="margin-bottom:3px">Preferences</div>
       <h2 style="font-size:1.7rem;font-weight:900;letter-spacing:-.02em">Settings</h2>
     </div>
     
-    <div class="card" style="margin-bottom:12px">
-      <div class="slabel" style="margin-bottom:12px">Profile</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div><label class="slabel" style="display:block;margin-bottom:4px">Your Name</label><input id="s-name" type="text" class="inp" placeholder="e.g. Rishav Kumar"/></div>
-        <div><label class="slabel" style="display:block;margin-bottom:4px">Exam / Goal</label><input id="s-exam" type="text" class="inp" placeholder="UPSC 2025, CAT, JEE…"/></div>
-        <button onclick="saveProfile()" class="btn bp bsm" style="align-self:flex-start">Save Profile</button>
+    <div class="d-grid d-grid-1">
+      <!-- Left Column -->
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div class="card">
+          <div class="slabel" style="margin-bottom:12px">Profile</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div><label class="slabel" style="display:block;margin-bottom:4px">Your Name</label><input id="s-name" type="text" class="inp" placeholder="e.g. Rishav Kumar"/></div>
+            <div><label class="slabel" style="display:block;margin-bottom:4px">Exam / Goal</label><input id="s-exam" type="text" class="inp" placeholder="UPSC 2025, CAT, JEE…"/></div>
+            <button onclick="saveProfile()" class="btn bp bsm" style="align-self:flex-start">Save Profile</button>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+            <div><div style="font-size:.86rem;font-weight:600">Dark Mode</div><div style="font-size:.73rem;color:var(--text-muted)">Toggle app theme</div></div>
+            <button onclick="toggleTheme()" class="btn bg bsm"><span class="ms" style="font-size:16px">dark_mode</span></button>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="slabel" style="margin-bottom:4px">Focus Timer</div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div><div style="font-size:.86rem;font-weight:600">Focus Duration</div><div style="font-size:.73rem;color:var(--text-muted)">Minutes per session</div></div>
+            <select id="s-focus" class="inp" style="width:120px; flex-shrink:0;" onchange="saveSetting('focusDur',this.value)">
+              <option value="15">15 min</option><option value="20">20 min</option><option value="25">25 min</option>
+              <option value="30">30 min</option><option value="45">45 min</option><option value="50">50 min</option>
+            </select>
+          </div>
+          <div style="padding:12px 0;display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div><div style="font-size:.86rem;font-weight:600">Break Duration</div><div style="font-size:.73rem;color:var(--text-muted)">Minutes per break</div></div>
+            <select id="s-break" class="inp" style="width:120px; flex-shrink:0;" onchange="saveSetting('breakDur',this.value)">
+              <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
-        <div><div style="font-size:.86rem;font-weight:600">Dark Mode</div><div style="font-size:.73rem;color:var(--text-muted)">Toggle app theme</div></div>
-        <button onclick="toggleTheme()" class="btn bg bsm"><span class="ms" style="font-size:16px">dark_mode</span></button>
+      
+      <!-- Right Column -->
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div class="card" style="flex:1">
+          <div style="display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:12px">
+            <div class="slabel">Subjects</div>
+            <button onclick="openAddSubj()" class="btn bp bsm"><span class="ms" style="font-size:14px">add</span>Add</button>
+          </div>
+          <div id="subj-list" style="display:flex;flex-direction:column;gap:7px"></div>
+        </div>
+        
+        <div class="card" style="border:1.5px solid #ffe4e8">
+          <div class="slabel" style="color:#9e3f4e;margin-bottom:12px">Data</div>
+          <div style="display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px;">
+            <div><div style="font-size:.86rem;font-weight:600">Reset All Data</div><div style="font-size:.73rem;color:var(--text-muted)">Clears everything</div></div>
+            <button onclick="clearData()" class="btn bd bsm">Reset</button>
+          </div>
+        </div>
       </div>
     </div>
-    
-    <div class="card" style="margin-bottom:12px">
-      <div style="display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:12px">
-        <div class="slabel">Subjects</div>
-        <button onclick="openAddSubj()" class="btn bp bsm"><span class="ms" style="font-size:14px">add</span>Add</button>
-      </div>
-      <div id="subj-list" style="display:flex;flex-direction:column;gap:7px"></div>
-    </div>
-    
-    <div class="card" style="margin-bottom:12px">
-      <div class="slabel" style="margin-bottom:4px">Focus Timer</div>
-      <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px;">
-        <div><div style="font-size:.86rem;font-weight:600">Focus Duration</div><div style="font-size:.73rem;color:var(--text-muted)">Minutes per session</div></div>
-        <select id="s-focus" class="inp" style="width:120px; flex-shrink:0;" onchange="saveSetting('focusDur',this.value)">
-          <option value="15">15 min</option><option value="20">20 min</option><option value="25">25 min</option>
-          <option value="30">30 min</option><option value="45">45 min</option><option value="50">50 min</option>
-        </select>
-      </div>
-      <div style="padding:12px 0;display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px;">
-        <div><div style="font-size:.86rem;font-weight:600">Break Duration</div><div style="font-size:.73rem;color:var(--text-muted)">Minutes per break</div></div>
-        <select id="s-break" class="inp" style="width:120px; flex-shrink:0;" onchange="saveSetting('breakDur',this.value)">
-          <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option>
-        </select>
-      </div>
-    </div>
-    
-    <div class="card" style="border:1.5px solid #ffe4e8">
-      <div class="slabel" style="color:#9e3f4e;margin-bottom:12px">Data</div>
-      <div style="display:flex;align-items:center;justify-content:space-between; flex-wrap:wrap; gap:10px;">
-        <div><div style="font-size:.86rem;font-weight:600">Reset All Data</div><div style="font-size:.73rem;color:var(--text-muted)">Clears everything</div></div>
-        <button onclick="clearData()" class="btn bd bsm">Reset</button>
-      </div>
-    </div>
-  </div><!-- /main -->
-
+  </div>
 <!-- ══════════════ MOBILE NAV ══════════════ -->
 <nav id="mobnav">
   <div class="mob-item" data-s="dashboard" onclick="go('dashboard')"><span class="ms" style="font-size:21px">home</span>Home</div>
